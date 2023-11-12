@@ -1,0 +1,31 @@
+<resources>
+    <string name="app_name">MultiplicationMaster</string>
+
+    <!--Fragments-->
+    <string name="title_settings">Configuración</string>
+    <string name="title_train">¡A entrenar!</string>
+    <string name="title_statistics">Estadisticas</string>
+
+    <!--Selección de avatar-->
+    <string name="textView_selectAvatar">Selecciona tu personaje favorito</string>
+    <string name="img_avatar_description">Imagen sobre el avatar para tu perfil.</string>
+    <string name="itachi_avatar">Itachi</string>
+    <string name="sasuke_avatar">Sasuke</string>
+    <string name="hinata_avatar">Hinata</string>
+    <string name="kakashi_avatar">Kakashi</string>
+
+    <!--Selección de tabla-->
+    <string name="textView_selectTable">¿Qué tabla quieres praticar?</string>
+
+    <!--Diálogo de dificultad-->
+    <string name="button_selectDifficulty">Seleccionar dificultad</string>
+    <string name="choose_difficulty">Elige la dificultad de nivel</string>
+    <string name="easy_difficulty">Fácil - (Orden ascendente)</string>
+    <string name="normal_difficulty">Normal - (Orden descendente)</string>
+    <string name="hard_difficulty">Difícil - (Orden aleatorio)</string>
+    <string name="exit_dialog">Volver</string>
+
+    <!--Edit text Fecha-->
+    <string name="select_datLbl">Selecciona la fecha de hoy</string>
+    <string name="select_date">¿Qué dia es hoy?</string>
+</resources>
