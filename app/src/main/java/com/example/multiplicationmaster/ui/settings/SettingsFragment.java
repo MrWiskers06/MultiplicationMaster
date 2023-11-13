@@ -29,16 +29,14 @@ import com.example.multiplicationmaster.dialogs.DifficultyDialogListener;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
+
 public class SettingsFragment extends Fragment implements AdapterView.OnItemSelectedListener, DifficultyDialogListener, DateDialogListener {
 
     private FragmentSettingsBinding binding; // Clase autogenerada que representa el binding con el layout del fragmento
-    private static String[] avatars = {"Itachi", "Hinata", "Sasuke", "Kakashi", "Naruto"};
-    private static int avatarImages[] = {R.drawable.itachi_9, R.drawable.hinnata_9, R.drawable.sasuke_9, R.drawable.kakashi_9, R.drawable.naruto_9};
+    private static final String[] AVATARS = {"Itachi", "Hinata", "Sasuke", "Kakashi", "Naruto"};
+    private static final int[] AVATAR_IMAGES = {R.drawable.itachi_9, R.drawable.hinnata_9, R.drawable.sasuke_9, R.drawable.kakashi_9, R.drawable.naruto_9};
     private Button lastSelectedButton = null; // Almacena el último botón de tabla de multiplicar seleccionado
-    private Button btnSelectDifficulty = null; // Botón para seleccionar dificultad
-    private DifficultyDialog difficultyDialog; // Diálogo para la selección de dificultad
     private int selectedDifficulty = 0; // Nivel de dificultad seleccionado
-    private DateDialog dateDialog; // Diálogo para la selección de fecha
     private EditText selectDate; // EditText para mostrar la fecha seleccionada
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -49,7 +47,7 @@ public class SettingsFragment extends Fragment implements AdapterView.OnItemSele
 
         // Configurar el Spinner
         Spinner selectAvatar = binding.spinnerAvatar;
-        CustomSpinnerAdapter personalSpinner = new CustomSpinnerAdapter(SettingsFragment.super.getContext(), R.layout.lines_spinner, avatars, avatarImages);
+        CustomSpinnerAdapter personalSpinner = new CustomSpinnerAdapter(SettingsFragment.super.getContext(), R.layout.lines_spinner, AVATARS, AVATAR_IMAGES);
         selectAvatar.setAdapter(personalSpinner);
         selectAvatar.setOnItemSelectedListener(this);
 
@@ -57,7 +55,8 @@ public class SettingsFragment extends Fragment implements AdapterView.OnItemSele
         addButtons();
 
         // Configurar el OnClickListener del botón dificultad
-        btnSelectDifficulty = binding.btnSelectDifficulty;
+        // Botón para seleccionar dificultad
+        Button btnSelectDifficulty = binding.btnSelectDifficulty;
         btnSelectDifficulty.setOnClickListener(this::onClickDifficulty);
 
         // Configurar el OnClickListener del EditText para la fecha
@@ -78,8 +77,8 @@ public class SettingsFragment extends Fragment implements AdapterView.OnItemSele
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        String selectedAvatar = avatars[position]; // Obtiene el nombre del avatar seleccionado
-        int selectedAvatarImage = avatarImages[position]; // Obtiene el recurso de la imagen del avatar seleccionado
+        String selectedAvatar = AVATARS[position]; // Obtiene el nombre del avatar seleccionado
+        int selectedAvatarImage = AVATAR_IMAGES[position]; // Obtiene el recurso de la imagen del avatar seleccionado
 
         // Hacer lo necesario con el avatar
         // Puedes realizar acciones adicionales al seleccionar un avatar
@@ -134,7 +133,12 @@ public class SettingsFragment extends Fragment implements AdapterView.OnItemSele
         button.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#73C6B6"))); // Establece el nuevo color del botón
         lastSelectedButton = button; // Actualiza la referencia al último botón seleccionado
 
-        Toast.makeText(getContext(), "Has seleccionado la tabla del " + button.getText(), Toast.LENGTH_SHORT).show();
+        if (button.getText().equals("?")){
+            int randomTable = (int) Math.floor(Math.random() * 10) + 1;
+            Toast.makeText(getContext(), "Has seleccionado la tabla del " + randomTable, Toast.LENGTH_SHORT).show();
+        }else {
+            Toast.makeText(getContext(), "Has seleccionado la tabla del " + button.getText(), Toast.LENGTH_SHORT).show();
+        }
     }
 
     public void onClickTableNumber(View view) {
@@ -149,7 +153,8 @@ public class SettingsFragment extends Fragment implements AdapterView.OnItemSele
     }
 
     public void onClickDifficulty(View view) {
-        difficultyDialog = new DifficultyDialog(selectedDifficulty);
+        // Diálogo para la selección de dificultad
+        DifficultyDialog difficultyDialog = new DifficultyDialog(selectedDifficulty);
         difficultyDialog.setDifficultyListener(this); // Establece el contexto de este fragmento para el listener del diálogo
         difficultyDialog.show(getActivity().getSupportFragmentManager(), "DifficultyDialog");
     }
@@ -163,7 +168,8 @@ public class SettingsFragment extends Fragment implements AdapterView.OnItemSele
     }
 
     public void onClickDate(View view) {
-        dateDialog = new DateDialog();
+        // Diálogo para la selección de fecha
+        DateDialog dateDialog = new DateDialog();
         dateDialog.setDateListener(this);
         dateDialog.show(getActivity().getSupportFragmentManager(), "DateDialog");
     }
