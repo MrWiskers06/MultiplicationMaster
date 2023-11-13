@@ -19,7 +19,6 @@
         android:textSize="24sp"
         app:layout_constraintBottom_toTopOf="@+id/spinner_avatar"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="1.0" />
@@ -29,12 +28,12 @@
         android:layout_width="364dp"
         android:layout_height="100dp"
         android:layout_marginStart="1dp"
-        android:layout_marginTop="48dp"
+        android:layout_marginTop="80dp"
         android:layout_marginEnd="1dp"
         android:dropDownWidth="wrap_content"
         android:spinnerMode="dialog"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.488"
+        app:layout_constraintHorizontal_bias="0.444"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -59,7 +58,7 @@
         android:id="@+id/grid_buttons"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="212dp"
+        android:layout_marginTop="268dp"
         app:columnCount="3"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.068"
@@ -73,8 +72,8 @@
         android:id="@+id/btn_selectDifficulty"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="12dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="404dp"
         android:onClick="onClickDifficulty"
         android:text="@string/button_selectDifficulty"
         android:textAlignment="center"
@@ -82,7 +81,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txv_selectTable"
-        app:layout_constraintVertical_bias="0.004" />
+        app:layout_constraintVertical_bias="1.0" />
 
     <EditText
         android:id="@+id/edt_fecha"
@@ -103,6 +102,6 @@
         app:layout_constraintHorizontal_bias="0.518"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btn_selectDifficulty"
-        app:layout_constraintVertical_bias="0.124" />
+        app:layout_constraintVertical_bias="0.082" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

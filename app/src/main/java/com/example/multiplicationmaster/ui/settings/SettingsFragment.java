@@ -95,7 +95,7 @@ public class SettingsFragment extends Fragment implements AdapterView.OnItemSele
         GridLayout buttonsGrid = binding.gridButtons;
         Button btn;
 
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i <= 11; i++) {
             btn = new Button(getContext());
 
             // Establecer los parámetros de diseño del botón
@@ -108,10 +108,10 @@ public class SettingsFragment extends Fragment implements AdapterView.OnItemSele
             btn.setId(View.generateViewId()); // Genera un ID único para el botón
             btn.setTextSize(16); // Modifica el tamaño de los números
 
-            if (i == 9) {
+            if (i == 11) {
                 btn.setText("?");
             } else {
-                btn.setText("" + (i + 1)); // Establece el texto del botón como el número actual (i + 1)
+                btn.setText("" + (i)); // Establece el texto del botón como el número actual (i + 1)
             }
 
             btn.setTextColor(Color.BLACK);
@@ -134,7 +134,7 @@ public class SettingsFragment extends Fragment implements AdapterView.OnItemSele
         lastSelectedButton = button; // Actualiza la referencia al último botón seleccionado
 
         if (button.getText().equals("?")){
-            int randomTable = (int) Math.floor(Math.random() * 10) + 1;
+            int randomTable = (int) Math.floor(Math.random() * 11);
             Toast.makeText(getContext(), "Has seleccionado la tabla del " + randomTable, Toast.LENGTH_SHORT).show();
         }else {
             Toast.makeText(getContext(), "Has seleccionado la tabla del " + button.getText(), Toast.LENGTH_SHORT).show();
@@ -174,6 +174,7 @@ public class SettingsFragment extends Fragment implements AdapterView.OnItemSele
         dateDialog.show(getActivity().getSupportFragmentManager(), "DateDialog");
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onSelectedDate(GregorianCalendar date) {
         selectDate.setText(date.get(Calendar.DAY_OF_MONTH) + "/"
