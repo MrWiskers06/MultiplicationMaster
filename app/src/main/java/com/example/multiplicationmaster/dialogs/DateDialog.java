@@ -2,9 +2,11 @@ package com.example.multiplicationmaster.dialogs;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.os.Bundle;
 import android.widget.DatePicker;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
 
 import java.util.Calendar;
@@ -34,9 +36,14 @@ public class DateDialog extends DialogFragment implements DatePickerDialog.OnDat
         dateListener.onSelectedDate(gregorianCalendar);
     }
 
-    public void setDateListener(DateDialogListener listener) {
-        // Método para establecer el listener desde el fragmento que invoca el DateDialog
-        this.dateListener = listener;
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        try {
+            dateListener = (DateDialogListener) context;
+        }catch (Exception ex){
+            System.out.println("Error a implementar la interfaz");
+        }
     }
 }
 

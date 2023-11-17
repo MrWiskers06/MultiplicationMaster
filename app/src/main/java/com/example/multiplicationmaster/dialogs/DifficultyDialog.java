@@ -51,9 +51,14 @@ public class DifficultyDialog extends DialogFragment {
         return builder.create();
     }
 
-    public void setDifficultyListener(DifficultyDialogListener listener) {
-        // Método para establecer el listener desde el fragmento que invoca el DifficultyDialog
-        this.difficultyListener = listener;
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        try {
+            difficultyListener = (DifficultyDialogListener) context;
+        }catch (Exception ex){
+            System.out.println("Error a implementar la interfaz");
+        }
     }
 }
 

@@ -19,24 +19,26 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.gridlayout.widget.GridLayout;
 
+import com.example.multiplicationmaster.MainActivity;
 import com.example.multiplicationmaster.R;
 import com.example.multiplicationmaster.databinding.FragmentSettingsBinding;
 import com.example.multiplicationmaster.dialogs.DateDialog;
 import com.example.multiplicationmaster.dialogs.DateDialogListener;
 import com.example.multiplicationmaster.dialogs.DifficultyDialog;
 import com.example.multiplicationmaster.dialogs.DifficultyDialogListener;
+import com.example.multiplicationmaster.ui.train.TrainFragment;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
-
-public class SettingsFragment extends Fragment implements AdapterView.OnItemSelectedListener, DifficultyDialogListener, DateDialogListener {
+public class SettingsFragment extends Fragment implements AdapterView.OnItemSelectedListener{
 
     private FragmentSettingsBinding binding; // Clase autogenerada que representa el binding con el layout del fragmento
-    private static final String[] AVATARS = {"Itachi", "Hinata", "Sasuke", "Kakashi", "Naruto"};
-    private static final int[] AVATAR_IMAGES = {R.drawable.itachi_9, R.drawable.hinnata_9, R.drawable.sasuke_9, R.drawable.kakashi_9, R.drawable.naruto_9};
+    private final String[] AVATARS = {"Itachi", "Hinata", "Sasuke", "Kakashi", "Naruto"};
+    private final int[] AVATAR_IMAGES = {R.drawable.itachi_9, R.drawable.hinnata_9, R.drawable.sasuke_9, R.drawable.kakashi_9, R.drawable.naruto_9};
+    private int randomTable;
     private Button lastSelectedButton = null; // Almacena el último botón de tabla de multiplicar seleccionado
-    private int selectedDifficulty = 0; // Nivel de dificultad seleccionado
+    private int selectedDifficulty = MainActivity.getSelectedDifficulty(); // Nivel de dificultad seleccionado
     private EditText selectDate; // EditText para mostrar la fecha seleccionada
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -77,13 +79,9 @@ public class SettingsFragment extends Fragment implements AdapterView.OnItemSele
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        String selectedAvatar = AVATARS[position]; // Obtiene el nombre del avatar seleccionado
-        int selectedAvatarImage = AVATAR_IMAGES[position]; // Obtiene el recurso de la imagen del avatar seleccionado
-
-        // Hacer lo necesario con el avatar
-        // Puedes realizar acciones adicionales al seleccionar un avatar
+        MainActivity.setAvatarSelected(AVATARS[position]); // Obtiene el nombre del avatar seleccionado
+        MainActivity.setAvatarImgSelected(AVATAR_IMAGES[position]); // Obtiene el recurso de la imagen del avatar seleccionado
     }
-
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
         // Lógica cuando no se selecciona ningún elemento en el Spinner
@@ -120,7 +118,6 @@ public class SettingsFragment extends Fragment implements AdapterView.OnItemSele
             buttonsGrid.addView(btn, i); // Agrega el botón al GridLayout
         }
     }
-
     private void select_unselectButton(Button button) {
         // Desmarca el último botón seleccionado y restaura su color original
         if (lastSelectedButton != null) {
@@ -134,13 +131,12 @@ public class SettingsFragment extends Fragment implements AdapterView.OnItemSele
         lastSelectedButton = button; // Actualiza la referencia al último botón seleccionado
 
         if (button.getText().equals("?")){
-            int randomTable = (int) Math.floor(Math.random() * 11);
+            randomTable = (int) Math.floor(Math.random() * 11);
             Toast.makeText(getContext(), "Has seleccionado la tabla del " + randomTable, Toast.LENGTH_SHORT).show();
         }else {
             Toast.makeText(getContext(), "Has seleccionado la tabla del " + button.getText(), Toast.LENGTH_SHORT).show();
         }
     }
-
     public void onClickTableNumber(View view) {
         if (view instanceof Button) {
             Button button = (Button) view;// Si es un botón, conviértelo a un objeto Button
@@ -148,39 +144,23 @@ public class SettingsFragment extends Fragment implements AdapterView.OnItemSele
             // Desmarca el último botón seleccionado y restaura su color original
             select_unselectButton(button);
 
-            button.getText(); //Lo utilizaremos para recuperar la tabla seleccionada, falta aplicar método que recupera el número seleccionado para el Fragment !A entrenar¡
+            if(button.getText().equals("?")){
+                MainActivity.setTableSelect(String.valueOf(randomTable));
+            }else{
+                MainActivity.setTableSelect((String) button.getText()); //Lo utilizaremos para recuperar la tabla seleccionada.
+            }
         }
     }
 
     public void onClickDifficulty(View view) {
         // Diálogo para la selección de dificultad
         DifficultyDialog difficultyDialog = new DifficultyDialog(selectedDifficulty);
-        difficultyDialog.setDifficultyListener(this); // Establece el contexto de este fragmento para el listener del diálogo
         difficultyDialog.show(getActivity().getSupportFragmentManager(), "DifficultyDialog");
-    }
-
-    @Override
-    public void onChangeDifficulty(int level) {
-        selectedDifficulty = level;
-        Toast.makeText(getContext(), "Se ha seleccionado el nivel " + level, Toast.LENGTH_SHORT).show();
-
-        // Puedes realizar acciones adicionales al cambiar la dificultad, falta aplicar método que recupera la dificultad seleccionada para el Fragment !A entrenar¡
     }
 
     public void onClickDate(View view) {
         // Diálogo para la selección de fecha
         DateDialog dateDialog = new DateDialog();
-        dateDialog.setDateListener(this);
         dateDialog.show(getActivity().getSupportFragmentManager(), "DateDialog");
-    }
-
-    @SuppressLint("SetTextI18n")
-    @Override
-    public void onSelectedDate(GregorianCalendar date) {
-        selectDate.setText(date.get(Calendar.DAY_OF_MONTH) + "/"
-                + (date.get(Calendar.MONTH) + 1) + "/" // Se suma 1 porque en Calendar, enero es 0
-                + date.get(Calendar.YEAR));
-
-        selectDate.getText(); // Puedes realizar acciones adicionales al seleccionar la fecha, falta aplicar método que recupera la fecha seleccionada para el Fragment Estadisticas
     }
 }
