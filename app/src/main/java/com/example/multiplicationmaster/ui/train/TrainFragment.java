@@ -34,7 +34,7 @@ public class TrainFragment extends Fragment {
 
     private FragmentTrainBinding binding;
     private Handler handlerShowResults = new Handler();
-    private static final long DELAY_NEXT_MULTIPLICATION = 500;
+    private static final long DELAY_NEXT_MULTIPLICATION = 2500;
     private String tableSelected;
     private ArrayList<Integer> randomOrder;
     private int expectedMultiplier;
@@ -78,6 +78,9 @@ public class TrainFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        //Preguntar sobre esto, tiene que haber mejro forma de ahcerlo
+        Intent intent = new Intent(getContext(), MainActivity.class);
+        startActivity(intent);
         binding = null;
     }
 
@@ -252,7 +255,7 @@ public class TrainFragment extends Fragment {
         GridLayout buttonsGrid = binding.gridButtons;
         Button button;
 
-        for (int i = 0; i <= 11; i++) {
+        for (int i = 9; i >= -2; i--) {
             button = new Button(getContext());
 
             // Establecer los parámetros de diseño del botón
@@ -265,10 +268,10 @@ public class TrainFragment extends Fragment {
             button.setId(View.generateViewId()); // Genera un ID único para el botón
             button.setTextSize(16); // Modifica el tamaño de los números
 
-            if (i == 10) {
+            if (i == -1) {
                 button.setBackgroundResource(R.drawable.icon_backspace_24);
                 button.setTag("backspace"); // Asigna una etiqueta única al botón de retroceso
-            } else if (i == 11) {
+            } else if (i == -2) {
                 button.setBackgroundResource(R.drawable.icon_check_24);
                 button.setTag("check"); // Asigna una etiqueta única al botón de check
             } else {
@@ -278,7 +281,7 @@ public class TrainFragment extends Fragment {
             button.setTextColor(Color.BLACK);
             button.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#F7DC6F")));
             button.setOnClickListener(this::onClickTableNumber); // Asocia un OnClickListener para manejar los clics en el botón
-            buttonsGrid.addView(button, i); // Agrega el botón al GridLayout
+            buttonsGrid.addView(button); // Agrega el botón al GridLayout
         }
     }
 
