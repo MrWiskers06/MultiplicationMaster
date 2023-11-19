@@ -78,9 +78,6 @@ public class TrainFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        //Preguntar sobre esto, tiene que haber mejro forma de ahcerlo
-        Intent intent = new Intent(getContext(), MainActivity.class);
-        startActivity(intent);
         binding = null;
     }
 
