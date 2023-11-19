@@ -118,36 +118,39 @@ public class SettingsFragment extends Fragment implements AdapterView.OnItemSele
             buttonsGrid.addView(btn, i); // Agrega el botón al GridLayout
         }
     }
-    private void select_unselectButton(Button button) {
-        // Desmarca el último botón seleccionado y restaura su color original
-        if (lastSelectedButton != null) {
-            lastSelectedButton.setSelected(false); // Desmarca el último botón seleccionado
-            lastSelectedButton.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#F7DC6F"))); // Restaura el color original del último botón
-        }
-
-        // Selecciona el nuevo botón y establece su color
-        button.setSelected(true); // Selecciona el nuevo botón
-        button.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#73C6B6"))); // Establece el nuevo color del botón
-        lastSelectedButton = button; // Actualiza la referencia al último botón seleccionado
-
-        if (button.getText().equals("?")){
-            randomTable = (int) Math.floor(Math.random() * 11);
-            Toast.makeText(getContext(), "Has seleccionado la tabla del " + randomTable, Toast.LENGTH_SHORT).show();
-        }else {
-            Toast.makeText(getContext(), "Has seleccionado la tabla del " + button.getText(), Toast.LENGTH_SHORT).show();
-        }
-    }
+//    private void select_unselectButton(Button button) {
+//        // Desmarca el último botón seleccionado y restaura su color original
+//        if (lastSelectedButton != null) {
+//            lastSelectedButton.setSelected(false); // Desmarca el último botón seleccionado
+//            lastSelectedButton.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#F7DC6F"))); // Restaura el color original del último botón
+//        }
+//
+//        // Selecciona el nuevo botón y establece su color
+//        button.setSelected(true); // Selecciona el nuevo botón
+//        button.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#73C6B6"))); // Establece el nuevo color del botón
+//        lastSelectedButton = button; // Actualiza la referencia al último botón seleccionado
+//
+//        if (button.getText().equals("?")){
+//            randomTable = (int) Math.floor(Math.random() * 11);
+//            Toast.makeText(getContext(), "Has seleccionado la tabla del " + randomTable, Toast.LENGTH_SHORT).show();
+//        }else {
+//            Toast.makeText(getContext(), "Has seleccionado la tabla del " + button.getText(), Toast.LENGTH_SHORT).show();
+//        }
+//    }
     public void onClickTableNumber(View view) {
         if (view instanceof Button) {
             Button button = (Button) view;// Si es un botón, conviértelo a un objeto Button
 
             // Desmarca el último botón seleccionado y restaura su color original
-            select_unselectButton(button);
+            //select_unselectButton(button);
 
             if(button.getText().equals("?")){
+                randomTable = (int) Math.floor(Math.random() * 11);
+                Toast.makeText(getContext(), "Has seleccionado la tabla del " + randomTable, Toast.LENGTH_SHORT).show();
                 MainActivity.setTableSelect(String.valueOf(randomTable));
             }else{
                 MainActivity.setTableSelect((String) button.getText()); //Lo utilizaremos para recuperar la tabla seleccionada.
+                Toast.makeText(getContext(), "Has seleccionado la tabla del " + button.getText(), Toast.LENGTH_SHORT).show();
             }
         }
     }

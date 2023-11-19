@@ -8,11 +8,13 @@
 
     <EditText
         android:id="@+id/edt_multiplication"
-        android:layout_width="200dp"
-        android:layout_height="59dp"
-        android:layout_marginStart="72dp"
+        android:layout_width="127dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="104dp"
         android:ems="10"
         android:inputType="text"
+        android:textAlignment="center"
+        android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="@+id/edt_result"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/edt_result"
@@ -20,10 +22,12 @@
 
     <EditText
         android:id="@+id/edt_result"
-        android:layout_width="59dp"
-        android:layout_height="59dp"
+        android:layout_width="53dp"
+        android:layout_height="50dp"
         android:ems="10"
         android:inputType="text"
+        android:textAlignment="viewStart"
+        android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -36,29 +40,55 @@
         android:layout_width="88dp"
         android:layout_height="113dp"
         android:layout_marginTop="16dp"
+        android:layout_marginBottom="25dp"
         android:contentDescription="@string/img_avatar_description"
-        android:src="@drawable/itachi_9"
         app:layout_constraintBottom_toTopOf="@+id/edt_multiplication"
-        app:layout_constraintEnd_toEndOf="@+id/edt_multiplication"
-        app:layout_constraintHorizontal_bias="0.723"
+        app:layout_constraintEnd_toEndOf="@+id/edt_result"
+        app:layout_constraintHorizontal_bias="0.423"
         app:layout_constraintStart_toStartOf="@+id/edt_multiplication"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0" />
 
     <androidx.gridlayout.widget.GridLayout
         android:id="@+id/grid_buttons"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="44dp"
-        app:rowCount="4"
+        android:layout_width="180dp"
+        android:layout_height="239dp"
+        android:layout_marginTop="37dp"
         app:columnCount="3"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edt_result"
-        app:layout_constraintVertical_bias="0.0">
+        app:layout_constraintTop_toBottomOf="@+id/edt_resultOK"
+        app:layout_constraintVertical_bias="0.0"
+        app:rowCount="4">
 
     </androidx.gridlayout.widget.GridLayout>
+
+    <EditText
+        android:id="@+id/edt_resultOK"
+        android:layout_width="180dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="20dp"
+        android:ems="10"
+        android:inputType="text"
+        android:textAlignment="center"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edt_result" />
+
+    <ProgressBar
+        android:id="@+id/pgb_multiplication"
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+        android:layout_width="336dp"
+        android:layout_height="36dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.493"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/grid_buttons"
+        app:layout_constraintVertical_bias="0.363" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

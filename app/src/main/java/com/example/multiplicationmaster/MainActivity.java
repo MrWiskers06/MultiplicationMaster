@@ -24,6 +24,40 @@ import java.util.GregorianCalendar;
 
 public class MainActivity extends AppCompatActivity implements DifficultyDialogListener, DateDialogListener {
     private ActivityMainBinding binding; // Enlace de datos
+//    private static final int[] AVATAR_ITACHI = {
+//            R.drawable.itachi_1, R.drawable.itachi_2,
+//            R.drawable.itachi_3, R.drawable.itachi_4, R.drawable.itachi_5,
+//            R.drawable.itachi_6, R.drawable.itachi_7, R.drawable.itachi_8,
+//            R.drawable.itachi_9, R.drawable.itachi_10
+//    };
+
+    private static final int[] AVATAR_HINATA = {
+            R.drawable.hinnata_1, R.drawable.hinnata_2,
+            R.drawable.hinnata_3, R.drawable.hinnata_4, R.drawable.hinnata_5,
+            R.drawable.hinnata_6, R.drawable.hinnata_7, R.drawable.hinnata_8,
+            R.drawable.hinnata_9, R.drawable.hinnata_10
+    };
+
+    private static final int[] AVATAR_NARUTO = {
+            R.drawable.naruto_1, R.drawable.naruto_2,
+            R.drawable.naruto_3, R.drawable.naruto_4, R.drawable.naruto_5,
+            R.drawable.naruto_6, R.drawable.naruto_7, R.drawable.naruto_8,
+            R.drawable.naruto_9, R.drawable.naruto_10
+    };
+
+    private static final int[] AVATAR_SASUKE = {
+            R.drawable.sasuke_1, R.drawable.sasuke_2,
+            R.drawable.sasuke_3, R.drawable.sasuke_4, R.drawable.sasuke_5,
+            R.drawable.sasuke_6, R.drawable.sasuke_7, R.drawable.sasuke_8,
+            R.drawable.sasuke_9, R.drawable.sasuke_10
+    };
+
+//    private static final int[] AVATAR_KAKASHI = {
+//            R.drawable.kakashi_1, R.drawable.kakashi_2,
+//            R.drawable.kakashi_3, R.drawable.kakashi_4, R.drawable.kakashi_5,
+//            R.drawable.kakashi_6, R.drawable.kakashi_7, R.drawable.kakashi_8,
+//            R.drawable.kakashi_9, R.drawable.kakashi_10
+//    };
     private static String avatarSelected;
     private static int avatarImgSelected;
     private static String tableSelect; // Recupera la tabla de multiplicar seleccionada
@@ -71,7 +105,7 @@ public class MainActivity extends AppCompatActivity implements DifficultyDialogL
         MainActivity.selectedDifficulty = selectedDifficulty;
     }
 
-    //Getter and setter for de avatar and avatarImage
+    //Getter and setter para el avatar y avatarImage
     public static String getAvatarSelected() {
         return avatarSelected;
     }
@@ -84,14 +118,27 @@ public class MainActivity extends AppCompatActivity implements DifficultyDialogL
     public static void setAvatarImgSelected(int avatarImgSelected) {
         MainActivity.avatarImgSelected = avatarImgSelected;
     }
+    public static int[] getAvatarProgressImages(String avatarName) {
+        switch (avatarName) {
+//            case "Itachi":
+//                return AVATAR_ITACHI;
+            case "Hinata":
+                return AVATAR_HINATA;
+            case "Naruto":
+                return AVATAR_NARUTO;
+            case "Sasuke":
+                return AVATAR_SASUKE;
+//            case "Kakashi":
+//                return AVATAR_KAKASHI;
+            default:
+                return null;
+        }
+    }
 
     //Implementacion de la interfaz para la dificultad
     @Override
     public void onChangeDifficulty(int level) {
         selectedDifficulty = level;
-        Toast.makeText(this, "Se ha seleccionado el nivel " + level, Toast.LENGTH_SHORT).show();
-
-        // Puedes realizar acciones adicionales al cambiar la dificultad, falta aplicar método que recupera la dificultad seleccionada para el Fragment !A entrenar¡
     }
 
     //Implementacion de la interfaz para la fecha
