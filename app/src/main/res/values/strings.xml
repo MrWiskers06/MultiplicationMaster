@@ -21,7 +21,7 @@
     <string name="button_selectDifficulty">Seleccionar dificultad</string>
     <string name="choose_difficulty">Elige la dificultad de nivel</string>
     <string name="easy_difficulty">Fácil - (Orden ascendente)</string>
-    <string name="normal_difficulty">Normal - (Orden descendente)</string>
+    <string name="normal_difficulty">Medio - (Orden descendente)</string>
     <string name="hard_difficulty">Difícil - (Orden aleatorio)</string>
     <string name="exit_dialog">Volver</string>
 

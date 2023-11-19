@@ -48,25 +48,16 @@ public class SettingsFragment extends Fragment implements AdapterView.OnItemSele
         View root = binding.getRoot();
 
         // Configurar el Spinner
-        Spinner selectAvatar = binding.spinnerAvatar;
-        CustomSpinnerAdapter personalSpinner = new CustomSpinnerAdapter(SettingsFragment.super.getContext(), R.layout.lines_spinner, AVATARS, AVATAR_IMAGES);
-        selectAvatar.setAdapter(personalSpinner);
-        selectAvatar.setOnItemSelectedListener(this);
+        configureSpinner();
 
         // Añade los botones de las tablas de multiplicar
         addButtons();
 
         // Configurar el OnClickListener del botón dificultad
-        // Botón para seleccionar dificultad
-        Button btnSelectDifficulty = binding.btnSelectDifficulty;
-        btnSelectDifficulty.setOnClickListener(this::onClickDifficulty);
+        configureDifficultyButton();
 
         // Configurar el OnClickListener del EditText para la fecha
-        selectDate = binding.edtFecha;
-        selectDate.setText(R.string.select_date); // Establece un texto visual inicial en el EditText
-        selectDate.setInputType(InputType.TYPE_NULL); // Evita que aparezca el teclado
-        selectDate.setOnClickListener(this::onClickDate); // Agrega el onClick con una expresión lambda
-        selectDate.setFocusable(false); // Hace que el EditText no sea enfocable, útil para evitar doble clic ya que el teclado no se mostrará
+        configureDateEditText();
 
         return root;
     }
@@ -75,6 +66,66 @@ public class SettingsFragment extends Fragment implements AdapterView.OnItemSele
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
+    }
+
+    // Configura el Spinner
+    private void configureSpinner() {
+        Spinner selectAvatar = binding.spinnerAvatar;
+        CustomSpinnerAdapter personalSpinner = new CustomSpinnerAdapter(SettingsFragment.super.getContext(), R.layout.lines_spinner, AVATARS, AVATAR_IMAGES);
+        selectAvatar.setAdapter(personalSpinner);
+        selectAvatar.setOnItemSelectedListener(this);
+    }
+
+    // Añade los botones de las tablas de multiplicar
+    private void addButtons() {
+        GridLayout buttonsGrid = binding.gridButtons;
+
+        for (int i = 0; i <= 11; i++) {
+            Button btn = createButton(i);
+            // Agrega el botón al GridLayout
+            buttonsGrid.addView(btn, i);
+        }
+    }
+    // Crear un botón con parámetros comunes
+    @SuppressLint("SetTextI18n")
+    private Button createButton(int i) {
+        Button btn = new Button(getContext());
+
+        // Establecer los parámetros de diseño del botón
+        int buttonSizeInDp = 50; // Tamaño deseado en dp
+        int buttonSizeInPx = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, buttonSizeInDp, getResources().getDisplayMetrics());
+
+        ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(buttonSizeInPx, buttonSizeInPx);
+        btn.setLayoutParams(params);
+
+        btn.setId(View.generateViewId()); // Genera un ID único para el botón
+        btn.setTextSize(16); // Modifica el tamaño de los números
+
+        if (i == 11) {
+            btn.setText("?");
+        } else {
+            btn.setText("" + (i));
+        }
+
+        btn.setTextColor(Color.BLACK);
+        btn.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#F7DC6F")));
+        btn.setOnClickListener(this::onClickTableNumber);
+        return btn;
+    }
+
+    // Configurar el OnClickListener del botón dificultad
+    private void configureDifficultyButton() {
+        Button btnSelectDifficulty = binding.btnSelectDifficulty;
+        btnSelectDifficulty.setOnClickListener(this::onClickDifficulty);
+    }
+
+    // Configurar el OnClickListener del EditText para la fecha
+    private void configureDateEditText() {
+        selectDate = binding.edtFecha;
+        selectDate.setText(R.string.select_date);
+        selectDate.setInputType(InputType.TYPE_NULL);
+        selectDate.setOnClickListener(this::onClickDate);
+        selectDate.setFocusable(false);
     }
 
     @Override
@@ -88,69 +139,36 @@ public class SettingsFragment extends Fragment implements AdapterView.OnItemSele
         // Puedes implementar lógica adicional para manejar este caso
     }
 
-    @SuppressLint("SetTextI18n")
-    public void addButtons() {
-        GridLayout buttonsGrid = binding.gridButtons;
-        Button btn;
+    private void select_unselectButton(Button button) {
+        // Desmarca el último botón seleccionado y restaura su color original
+        if (lastSelectedButton != null) {
+            lastSelectedButton.setSelected(false); // Desmarca el último botón seleccionado
+            lastSelectedButton.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#F7DC6F"))); // Restaura el color original del último botón
+        }
 
-        for (int i = 0; i <= 11; i++) {
-            btn = new Button(getContext());
+        // Selecciona el nuevo botón y establece su color
+        button.setSelected(true); // Selecciona el nuevo botón
+        button.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#73C6B6"))); // Establece el nuevo color del botón
+        lastSelectedButton = button; // Actualiza la referencia al último botón seleccionado
 
-            // Establecer los parámetros de diseño del botón
-            int buttonSizeInDp = 50; // Tamaño deseado en dp
-            int buttonSizeInPx = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, buttonSizeInDp, getResources().getDisplayMetrics());
-
-            ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(buttonSizeInPx, buttonSizeInPx);
-            btn.setLayoutParams(params);
-
-            btn.setId(View.generateViewId()); // Genera un ID único para el botón
-            btn.setTextSize(16); // Modifica el tamaño de los números
-
-            if (i == 11) {
-                btn.setText("?");
-            } else {
-                btn.setText("" + (i)); // Establece el texto del botón como el número actual (i + 1)
-            }
-
-            btn.setTextColor(Color.BLACK);
-            btn.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#F7DC6F")));
-            btn.setOnClickListener(this::onClickTableNumber); // Asocia un OnClickListener para manejar los clics en el botón
-            buttonsGrid.addView(btn, i); // Agrega el botón al GridLayout
+        if (button.getText().equals("?")){
+            randomTable = (int) Math.floor(Math.random() * 11);
+            Toast.makeText(getContext(), "Has seleccionado la tabla del " + randomTable, Toast.LENGTH_SHORT).show();
+        }else {
+            Toast.makeText(getContext(), "Has seleccionado la tabla del " + button.getText(), Toast.LENGTH_SHORT).show();
         }
     }
-//    private void select_unselectButton(Button button) {
-//        // Desmarca el último botón seleccionado y restaura su color original
-//        if (lastSelectedButton != null) {
-//            lastSelectedButton.setSelected(false); // Desmarca el último botón seleccionado
-//            lastSelectedButton.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#F7DC6F"))); // Restaura el color original del último botón
-//        }
-//
-//        // Selecciona el nuevo botón y establece su color
-//        button.setSelected(true); // Selecciona el nuevo botón
-//        button.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#73C6B6"))); // Establece el nuevo color del botón
-//        lastSelectedButton = button; // Actualiza la referencia al último botón seleccionado
-//
-//        if (button.getText().equals("?")){
-//            randomTable = (int) Math.floor(Math.random() * 11);
-//            Toast.makeText(getContext(), "Has seleccionado la tabla del " + randomTable, Toast.LENGTH_SHORT).show();
-//        }else {
-//            Toast.makeText(getContext(), "Has seleccionado la tabla del " + button.getText(), Toast.LENGTH_SHORT).show();
-//        }
-//    }
     public void onClickTableNumber(View view) {
         if (view instanceof Button) {
             Button button = (Button) view;// Si es un botón, conviértelo a un objeto Button
 
             // Desmarca el último botón seleccionado y restaura su color original
-            //select_unselectButton(button);
+            select_unselectButton(button);
 
             if(button.getText().equals("?")){
-                randomTable = (int) Math.floor(Math.random() * 11);
-                Toast.makeText(getContext(), "Has seleccionado la tabla del " + randomTable, Toast.LENGTH_SHORT).show();
                 MainActivity.setTableSelect(String.valueOf(randomTable));
             }else{
                 MainActivity.setTableSelect((String) button.getText()); //Lo utilizaremos para recuperar la tabla seleccionada.
-                Toast.makeText(getContext(), "Has seleccionado la tabla del " + button.getText(), Toast.LENGTH_SHORT).show();
             }
         }
     }

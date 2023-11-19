@@ -10,13 +10,12 @@
         android:id="@+id/edt_multiplication"
         android:layout_width="127dp"
         android:layout_height="50dp"
-        android:layout_marginStart="104dp"
         android:ems="10"
         android:inputType="text"
         android:textAlignment="center"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="@+id/edt_result"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/edt_resultOK"
         app:layout_constraintTop_toTopOf="@+id/edt_result"
         app:layout_constraintVertical_bias="0.0" />
 

@@ -24,12 +24,12 @@ import java.util.GregorianCalendar;
 
 public class MainActivity extends AppCompatActivity implements DifficultyDialogListener, DateDialogListener {
     private ActivityMainBinding binding; // Enlace de datos
-//    private static final int[] AVATAR_ITACHI = {
-//            R.drawable.itachi_1, R.drawable.itachi_2,
-//            R.drawable.itachi_3, R.drawable.itachi_4, R.drawable.itachi_5,
-//            R.drawable.itachi_6, R.drawable.itachi_7, R.drawable.itachi_8,
-//            R.drawable.itachi_9, R.drawable.itachi_10
-//    };
+    private static final int[] AVATAR_ITACHI = {
+            R.drawable.itachi_1, R.drawable.itachi_2,
+            R.drawable.itachi_3, R.drawable.itachi_4, R.drawable.itachi_5,
+            R.drawable.itachi_6, R.drawable.itachi_7, R.drawable.itachi_8,
+            R.drawable.itachi_9, R.drawable.itachi_10
+    };
 
     private static final int[] AVATAR_HINATA = {
             R.drawable.hinnata_1, R.drawable.hinnata_2,
@@ -52,12 +52,12 @@ public class MainActivity extends AppCompatActivity implements DifficultyDialogL
             R.drawable.sasuke_9, R.drawable.sasuke_10
     };
 
-//    private static final int[] AVATAR_KAKASHI = {
-//            R.drawable.kakashi_1, R.drawable.kakashi_2,
-//            R.drawable.kakashi_3, R.drawable.kakashi_4, R.drawable.kakashi_5,
-//            R.drawable.kakashi_6, R.drawable.kakashi_7, R.drawable.kakashi_8,
-//            R.drawable.kakashi_9, R.drawable.kakashi_10
-//    };
+    private static final int[] AVATAR_KAKASHI = {
+            R.drawable.kakashi_1, R.drawable.kakashi_2,
+            R.drawable.kakashi_3, R.drawable.kakashi_4, R.drawable.kakashi_5,
+            R.drawable.kakashi_6, R.drawable.kakashi_7, R.drawable.kakashi_8,
+            R.drawable.kakashi_9, R.drawable.kakashi_10
+    };
     private static String avatarSelected;
     private static int avatarImgSelected;
     private static String tableSelect; // Recupera la tabla de multiplicar seleccionada
@@ -67,14 +67,17 @@ public class MainActivity extends AppCompatActivity implements DifficultyDialogL
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         // Infla el diseño de la actividad utilizando el enlace de datos generado por View Binding.
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        configureActionBarAndBottomNav();
+    }
+
+    // Configuración de la barra de aplicaciones y BottomNavigationView
+    private void configureActionBarAndBottomNav() {
         // Obtiene una referencia al elemento BottomNavigationView con el ID nav_view del diseño de la actividad.
         BottomNavigationView navView = findViewById(R.id.nav_view);
-
         // Paso de cada ID de menú como un conjunto de IDs porque cada menú debe considerarse como destinos de nivel superior.
         // Crea una configuración de la barra de aplicaciones que especifica qué destinos deben considerarse como destinos de nivel superior en tu aplicación.
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(R.id.navigation_settings, R.id.navigation_train, R.id.navigation_statistics).build();
@@ -120,16 +123,16 @@ public class MainActivity extends AppCompatActivity implements DifficultyDialogL
     }
     public static int[] getAvatarProgressImages(String avatarName) {
         switch (avatarName) {
-//            case "Itachi":
-//                return AVATAR_ITACHI;
+            case "Itachi":
+                return AVATAR_ITACHI;
             case "Hinata":
                 return AVATAR_HINATA;
             case "Naruto":
                 return AVATAR_NARUTO;
             case "Sasuke":
                 return AVATAR_SASUKE;
-//            case "Kakashi":
-//                return AVATAR_KAKASHI;
+            case "Kakashi":
+                return AVATAR_KAKASHI;
             default:
                 return null;
         }

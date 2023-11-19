@@ -37,11 +37,11 @@ public class TrainFragment extends Fragment {
     private static final long DELAY_NEXT_MULTIPLICATION = 2500;
     private String tableSelected;
     private ArrayList<Integer> randomOrder;
-    private int expectedMultiplier;
     private EditText editTextResult;
     private EditText editTextTable;
     private EditText editTextResultExpected;
     private int currentMultiplier;
+    private int currentImageIndex = 0;
     private ProgressBar progressBar;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -51,20 +51,8 @@ public class TrainFragment extends Fragment {
 
         tableSelected = MainActivity.getTableSelect();
 
-        editTextTable = binding.edtMultiplication;
-        editTextTable.setInputType(InputType.TYPE_NULL); // Evita que aparezca el teclado
-        editTextTable.setFocusable(false); // Hace que el EditText no sea enfocable, útil para evitar doble clic ya que el teclado no se mostrará
-
-        editTextResult = binding.edtResult;
-        editTextResult.setInputType(InputType.TYPE_NULL); // Evita que aparezca el teclado
-        editTextResult.setFocusable(false); // Hace que el EditText no sea enfocable, útil para evitar doble clic ya que el teclado no se mostrará
-
-        editTextResultExpected = binding.edtResultOK;
-        editTextResultExpected.setInputType(InputType.TYPE_NULL);
-        editTextResultExpected.setFocusable(false);
-
-        progressBar = binding.pgbMultiplication;
-
+        // Configurar las vistas
+        configureViews();
         // Añade los botones de las tablas de multiplicar para los resultados
         addButtons();
         //Muestra el avatar seleccionado
@@ -81,6 +69,21 @@ public class TrainFragment extends Fragment {
         binding = null;
     }
 
+    private void configureViews() {
+        editTextTable = binding.edtMultiplication;
+        editTextTable.setInputType(InputType.TYPE_NULL); // Evita que aparezca el teclado
+        editTextTable.setFocusable(false); // Hace que el EditText no sea enfocable, útil para evitar doble clic ya que el teclado no se mostrará
+
+        editTextResult = binding.edtResult;
+        editTextResult.setInputType(InputType.TYPE_NULL); // Evita que aparezca el teclado
+        editTextResult.setFocusable(false); // Hace que el EditText no sea enfocable, útil para evitar doble clic ya que el teclado no se mostrará
+
+        editTextResultExpected = binding.edtResultOK;
+        editTextResultExpected.setInputType(InputType.TYPE_NULL);
+        editTextResultExpected.setFocusable(false);
+
+        progressBar = binding.pgbMultiplication;
+    }
     public void getAvatarSelected() {
         ImageView imgAvatar = binding.imgAvatar;
         imgAvatar.setImageResource(MainActivity.getAvatarImgSelected());
@@ -93,28 +96,28 @@ public class TrainFragment extends Fragment {
         int[] avatarProgressImages = MainActivity.getAvatarProgressImages(avatarName);
 
         if (avatarProgressImages != null && currentMultiplier >= 0 && currentMultiplier < avatarProgressImages.length) {
-            imgAvatar.setImageResource(avatarProgressImages[currentMultiplier]);
+            imgAvatar.setImageResource(avatarProgressImages[currentImageIndex]);
         }
     }
 
     @SuppressLint("SetTextI18n")
     public void addTableMultiplication() {
+        currentMultiplier = 0;  // Multiplicador actual
+        // Configura el orden aleatorio en caso de la dificultad dificil
+        randomOrder = generateRandomOrder();
 
         if (tableSelected != null && !tableSelected.isEmpty()) {
             int table = Integer.parseInt(tableSelected);
-
-            currentMultiplier = 0;  // Multiplicador actual
-            // Configura el orden aleatorio en caso de la dificultad dificil
-            randomOrder = generateRandomOrder();
+            // Limpiar campos de texto
+            clearResultFields();
             showNextMultiplication(table);
         } else {
-            // Si el usuario no ha seleccionado ninguna tabla, mostrar un mensaje o tomar alguna acción
+            // Si el usuario no ha seleccionado ninguna tabla
             editTextResult.setEnabled(false);
             Toast.makeText(getContext(), "Por favor, selecciona una tabla en la configuración", Toast.LENGTH_LONG).show();
             // Puedes redirigir al usuario a la pantalla de configuración o realizar alguna otra acción.
         }
     }
-
     private ArrayList<Integer> generateRandomOrder() {
         ArrayList<Integer> order = new ArrayList<>();
         for (int i = 0; i <= 10; i++) {
@@ -124,25 +127,11 @@ public class TrainFragment extends Fragment {
         return order;
     }
 
+    // Método para mostrar la siguiente multiplicación en la interfaz de usuario
     private void showNextMultiplication(int table) {
         if (currentMultiplier < 11) {
-            int multiplier;
-
-            // Obtén la dificultad seleccionada
-            int difficulty = MainActivity.getSelectedDifficulty();
-
-            // Ajusta el orden de presentación según la dificultad
-            switch (difficulty) {
-                case 1: // Medio (descendente)
-                    multiplier = 10 - currentMultiplier;
-                    break;
-                case 2: // Difícil (aleatorio)
-                    multiplier = randomOrder.get(currentMultiplier);
-                    break;
-                default:
-                    multiplier = currentMultiplier;
-                    break;
-            }
+            // Calcular el multiplicador esperado en funcion de la difciultad seleccionada
+            int multiplier = calculateExpectedMultiplier(table);
 
             String multiplicationText = table + " X " + multiplier + " = ";
             editTextTable.setText(multiplicationText);
@@ -156,74 +145,77 @@ public class TrainFragment extends Fragment {
             Toast.makeText(getContext(), "Enhorabuena, has finalizado la tabla del " + table, Toast.LENGTH_LONG).show();
 
             handlerShowResults.postDelayed(() -> {
-
                 Intent intent = new Intent(getContext(), MainActivity.class);
                 startActivity(intent);
-
             }, DELAY_NEXT_MULTIPLICATION);
-
         }
     }
 
+    // Método para verificar y manejar la respuesta del usuario
     public void checkResult(int table) {
-        // Obtén el resultado ingresado por el usuario
         String userResultText = editTextResult.getText().toString().trim();
 
-        // Compara el resultado ingresado con el resultado esperado
-        if (!userResultText.isEmpty()) {
-            int userResult = Integer.parseInt(userResultText);
-
-            // Ajusta el cálculo del resultado esperado en función de la dificultad
-            switch (MainActivity.getSelectedDifficulty()) {
-                case 1: // Medio (descendente)
-                    expectedMultiplier = 10 - currentMultiplier;
-                    break;
-                case 2: // Difícil (aleatorio)
-                    expectedMultiplier = randomOrder.get(currentMultiplier);
-                    break;
-                default: // Fácil (ascendente)
-                    expectedMultiplier = currentMultiplier;
-                    break;
-            }
-
-            int expectedResult = table * expectedMultiplier;
-
-            if (userResult == expectedResult) {
-                // El resultado es correcto
-                showCorrectMultiplication(table, expectedMultiplier);
-
-                // Después de un breve retardo, limpia los colores y muestra la próxima multiplicación
-                handlerShowResults.postDelayed(() -> {
-                    clearResultFields();
-                    // Muestra la siguiente multiplicación
-                    currentMultiplier++;
-                    showNextMultiplication(table);
-
-                    // Muestra la siguiente imagen del avatar
-                    showNextAvatarImage();
-
-                }, DELAY_NEXT_MULTIPLICATION);
-            } else {
-                // El resultado no es correcto
-                editTextTable.setTextColor(Color.RED);
-                editTextResult.setTextColor(Color.RED);
-                showCorrectResult(table, expectedResult);
-
-                // Después de un breve retardo, limpia los colores y muestra la próxima multiplicación
-                handlerShowResults.postDelayed(() -> {
-                    clearResultFields();
-                    // Muestra la siguiente multiplicación
-                    currentMultiplier++;
-                    showNextMultiplication(table);
-
-                }, DELAY_NEXT_MULTIPLICATION);
-            }
-        } else {
+        if (userResultText.isEmpty()) {
             // Si el campo del resultado está vacío, le pide que introduzca un resultado
             Toast.makeText(getContext(), "Introduce un resultado", Toast.LENGTH_LONG).show();
+            return;
+        }
+
+        int userResult = Integer.parseInt(userResultText);
+        int expectedMultiplier = calculateExpectedMultiplier(table);
+
+        int expectedResult = table * expectedMultiplier;
+
+        // Comparar el resultado del usuario con el resultado esperado y manejar la respuesta
+        if (userResult == expectedResult) {
+            showCorrectMultiplication(table, expectedMultiplier);
+            handleCorrectResult(table);
+        } else {
+            handleIncorrectResult(table, expectedResult);
         }
     }
 
+    // Método para calcular el multiplicador esperado según la dificultad
+    private int calculateExpectedMultiplier(int table) {
+        switch (MainActivity.getSelectedDifficulty()) {
+            case 1: // Medio (descendente)
+                return 10 - currentMultiplier;
+            case 2: // Difícil (aleatorio)
+                return randomOrder.get(currentMultiplier);
+            default: // Fácil (ascendente)
+                return currentMultiplier;
+        }
+    }
+
+    // Método para manejar la respuesta correcta
+    private void handleCorrectResult(int table) {
+        handlerShowResults.postDelayed(() -> {
+            // Después de un breve retardo, limpiar los campos y mostrar la siguiente multiplicación
+            clearResultFields();
+            showNextAvatarImage();
+            currentMultiplier++;
+            currentImageIndex++;
+            showNextMultiplication(table);
+        }, DELAY_NEXT_MULTIPLICATION);
+    }
+
+    // Método para manejar la respuesta incorrecta
+    private void handleIncorrectResult(int table, int expectedResult) {
+        // Cambiar el color del texto para indicar una respuesta incorrecta
+        editTextTable.setTextColor(Color.RED);
+        editTextResult.setTextColor(Color.RED);
+
+        // Mostrar el resultado esperado en verde
+        showCorrectResult(table, expectedResult);
+
+        handlerShowResults.postDelayed(() -> {
+            clearResultFields();
+            currentMultiplier++;
+            showNextMultiplication(table);
+        }, DELAY_NEXT_MULTIPLICATION);
+    }
+
+    // Método para mostrar la multiplicación correcta en verde en caso de acierto
     private void showCorrectMultiplication(int table, int multiplier) {
         // Muestra la multiplicación correcta en verde
         String correctMultiplicationText = table + " X " + multiplier + " = ";
@@ -232,14 +224,17 @@ public class TrainFragment extends Fragment {
 
         editTextResult.setTextColor(Color.GREEN);
     }
+
+    // Método para mostrar el resultado correcto en verde en caso de error
     private void showCorrectResult(int table, int expectedResult) {
         // Muestra el resultado correcto en verde
-        String textResultExpected = table + " X " + expectedMultiplier + " = " + expectedResult;
+        String textResultExpected = table + " X " + calculateExpectedMultiplier(table) + " = " + expectedResult;
         editTextResultExpected.setTextColor(Color.GREEN);
         editTextResultExpected.setText(textResultExpected);
     }
+
+    // Limpia los colores y los campos de resultado
     private void clearResultFields() {
-        // Después de un retardo, limpia los colores y los campos de resultado
         editTextTable.setTextColor(Color.BLACK);
         editTextResult.setTextColor(Color.BLACK);
         editTextResult.setText("");
@@ -281,7 +276,6 @@ public class TrainFragment extends Fragment {
             buttonsGrid.addView(button); // Agrega el botón al GridLayout
         }
     }
-
     @SuppressLint("ResourceType")
     public void onClickTableNumber(View view) {
         EditText editTextResult = binding.edtResult;
