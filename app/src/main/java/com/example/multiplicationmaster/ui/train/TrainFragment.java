@@ -277,7 +277,7 @@ public class TrainFragment extends Fragment {
         if (view instanceof Button) {
             Button button = (Button) view;// Si es un botón, conviértelo a un objeto Button
 
-            if (tableSelected != null && !tableSelected.isEmpty()) {
+            if (tableSelected != null && !tableSelected.isEmpty() && currentMultiplier <=10) {
                 if ("backspace".equals(button.getTag())) {
                     Editable editable = textViewResult.getEditableText(); //Crea un objeto Editable que contiene el texto editable del EditText
                     if (textViewResult.length() > 0) {
