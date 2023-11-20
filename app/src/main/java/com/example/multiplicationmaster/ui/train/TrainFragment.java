@@ -16,6 +16,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -25,7 +26,6 @@ import androidx.gridlayout.widget.GridLayout;
 import com.example.multiplicationmaster.MainActivity;
 import com.example.multiplicationmaster.R;
 import com.example.multiplicationmaster.databinding.FragmentTrainBinding;
-import com.example.multiplicationmaster.ui.settings.SettingsFragment;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -37,9 +37,9 @@ public class TrainFragment extends Fragment {
     private static final long DELAY_NEXT_MULTIPLICATION = 2500;
     private String tableSelected;
     private ArrayList<Integer> randomOrder;
-    private EditText editTextResult;
-    private EditText editTextTable;
-    private EditText editTextResultExpected;
+    private TextView textViewResult;
+    private TextView textViewTable;
+    private TextView textViewResultExpected;
     private int currentMultiplier;
     private int currentImageIndex = 0;
     private ProgressBar progressBar;
@@ -70,17 +70,17 @@ public class TrainFragment extends Fragment {
     }
 
     private void configureViews() {
-        editTextTable = binding.edtMultiplication;
-        editTextTable.setInputType(InputType.TYPE_NULL); // Evita que aparezca el teclado
-        editTextTable.setFocusable(false); // Hace que el EditText no sea enfocable, útil para evitar doble clic ya que el teclado no se mostrará
+        textViewTable = binding.txvMultiplication;
+        textViewTable.setInputType(InputType.TYPE_NULL); // Evita que aparezca el teclado
+        textViewTable.setFocusable(false); // Hace que el EditText no sea enfocable, útil para evitar doble clic ya que el teclado no se mostrará
 
-        editTextResult = binding.edtResult;
-        editTextResult.setInputType(InputType.TYPE_NULL); // Evita que aparezca el teclado
-        editTextResult.setFocusable(false); // Hace que el EditText no sea enfocable, útil para evitar doble clic ya que el teclado no se mostrará
+        textViewResult = binding.txvResult;
+        textViewResult.setInputType(InputType.TYPE_NULL); // Evita que aparezca el teclado
+        textViewResult.setFocusable(false); // Hace que el EditText no sea enfocable, útil para evitar doble clic ya que el teclado no se mostrará
 
-        editTextResultExpected = binding.edtResultOK;
-        editTextResultExpected.setInputType(InputType.TYPE_NULL);
-        editTextResultExpected.setFocusable(false);
+        textViewResultExpected = binding.txvResultOK;
+        textViewResultExpected.setInputType(InputType.TYPE_NULL);
+        textViewResultExpected.setFocusable(false);
 
         progressBar = binding.pgbMultiplication;
     }
@@ -113,7 +113,7 @@ public class TrainFragment extends Fragment {
             showNextMultiplication(table);
         } else {
             // Si el usuario no ha seleccionado ninguna tabla
-            editTextResult.setEnabled(false);
+            textViewResult.setEnabled(false);
             Toast.makeText(getContext(), "Por favor, selecciona una tabla en la configuración", Toast.LENGTH_LONG).show();
             // Puedes redirigir al usuario a la pantalla de configuración o realizar alguna otra acción.
         }
@@ -134,26 +134,18 @@ public class TrainFragment extends Fragment {
             int multiplier = calculateExpectedMultiplier(table);
 
             String multiplicationText = table + " X " + multiplier + " = ";
-            editTextTable.setText(multiplicationText);
-
-            // Actualiza el progreso de la barra
-            int progress = (currentMultiplier * 100) / 11;
-            progressBar.setProgress(progress);
+            textViewTable.setText(multiplicationText);
         }
 
         if (currentMultiplier == 11){
             Toast.makeText(getContext(), "Enhorabuena, has finalizado la tabla del " + table, Toast.LENGTH_LONG).show();
-
-            handlerShowResults.postDelayed(() -> {
-                Intent intent = new Intent(getContext(), MainActivity.class);
-                startActivity(intent);
-            }, DELAY_NEXT_MULTIPLICATION);
+            textViewTable.setText("");
         }
     }
 
     // Método para verificar y manejar la respuesta del usuario
     public void checkResult(int table) {
-        String userResultText = editTextResult.getText().toString().trim();
+        String userResultText = textViewResult.getText().toString().trim();
 
         if (userResultText.isEmpty()) {
             // Si el campo del resultado está vacío, le pide que introduzca un resultado
@@ -165,6 +157,10 @@ public class TrainFragment extends Fragment {
         int expectedMultiplier = calculateExpectedMultiplier(table);
 
         int expectedResult = table * expectedMultiplier;
+
+        // Actualiza el progreso de la barra
+        progressBar.setMax(11);
+        progressBar.setProgress(currentMultiplier+1);
 
         // Comparar el resultado del usuario con el resultado esperado y manejar la respuesta
         if (userResult == expectedResult) {
@@ -202,8 +198,8 @@ public class TrainFragment extends Fragment {
     // Método para manejar la respuesta incorrecta
     private void handleIncorrectResult(int table, int expectedResult) {
         // Cambiar el color del texto para indicar una respuesta incorrecta
-        editTextTable.setTextColor(Color.RED);
-        editTextResult.setTextColor(Color.RED);
+        textViewTable.setTextColor(Color.RED);
+        textViewResult.setTextColor(Color.RED);
 
         // Mostrar el resultado esperado en verde
         showCorrectResult(table, expectedResult);
@@ -219,26 +215,26 @@ public class TrainFragment extends Fragment {
     private void showCorrectMultiplication(int table, int multiplier) {
         // Muestra la multiplicación correcta en verde
         String correctMultiplicationText = table + " X " + multiplier + " = ";
-        editTextTable.setTextColor(Color.GREEN);
-        editTextTable.setText(correctMultiplicationText);
+        textViewTable.setTextColor(Color.GREEN);
+        textViewTable.setText(correctMultiplicationText);
 
-        editTextResult.setTextColor(Color.GREEN);
+        textViewResult.setTextColor(Color.GREEN);
     }
 
     // Método para mostrar el resultado correcto en verde en caso de error
     private void showCorrectResult(int table, int expectedResult) {
         // Muestra el resultado correcto en verde
         String textResultExpected = table + " X " + calculateExpectedMultiplier(table) + " = " + expectedResult;
-        editTextResultExpected.setTextColor(Color.GREEN);
-        editTextResultExpected.setText(textResultExpected);
+        textViewResultExpected.setTextColor(Color.GREEN);
+        textViewResultExpected.setText(textResultExpected);
     }
 
     // Limpia los colores y los campos de resultado
     private void clearResultFields() {
-        editTextTable.setTextColor(Color.BLACK);
-        editTextResult.setTextColor(Color.BLACK);
-        editTextResult.setText("");
-        editTextResultExpected.setText("");
+        textViewTable.setTextColor(Color.BLACK);
+        textViewResult.setTextColor(Color.BLACK);
+        textViewResult.setText("");
+        textViewResultExpected.setText("");
     }
 
     // Botonera para introducir los resultados de las multiplicaciones
@@ -278,20 +274,19 @@ public class TrainFragment extends Fragment {
     }
     @SuppressLint("ResourceType")
     public void onClickTableNumber(View view) {
-        EditText editTextResult = binding.edtResult;
         if (view instanceof Button) {
             Button button = (Button) view;// Si es un botón, conviértelo a un objeto Button
 
             if (tableSelected != null && !tableSelected.isEmpty()) {
                 if ("backspace".equals(button.getTag())) {
-                    Editable editable = editTextResult.getText(); //Crea un objeto Editable que contiene el texto editable del EditText
-                    if (editTextResult.length() > 0) {
-                        editable.delete(editTextResult.length() - 1, editTextResult.length());
+                    Editable editable = textViewResult.getEditableText(); //Crea un objeto Editable que contiene el texto editable del EditText
+                    if (textViewResult.length() > 0) {
+                        editable.delete(textViewResult.length() - 1, textViewResult.length());
                     }
                 } else if ("check".equals(button.getTag())) {
                     checkResult(Integer.parseInt(MainActivity.getTableSelect()));
                 } else {
-                    editTextResult.append(button.getText());
+                    textViewResult.append(button.getText());
                 }
             }
         }
