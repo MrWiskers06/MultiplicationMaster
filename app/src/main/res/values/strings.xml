@@ -9,6 +9,7 @@
     <!--Selección de avatar-->
     <string name="textView_selectAvatar">Selecciona tu personaje favorito</string>
     <string name="img_avatar_description">Imagen sobre el avatar para tu perfil.</string>
+    <string name="textView_avatarTrain">¿Podras conseguir el avatar completo?</string>
     <string name="itachi_avatar">Itachi</string>
     <string name="sasuke_avatar">Sasuke</string>
     <string name="hinata_avatar">Hinata</string>

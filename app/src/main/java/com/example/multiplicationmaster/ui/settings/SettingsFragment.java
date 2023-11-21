@@ -23,13 +23,7 @@ import com.example.multiplicationmaster.MainActivity;
 import com.example.multiplicationmaster.R;
 import com.example.multiplicationmaster.databinding.FragmentSettingsBinding;
 import com.example.multiplicationmaster.dialogs.DateDialog;
-import com.example.multiplicationmaster.dialogs.DateDialogListener;
 import com.example.multiplicationmaster.dialogs.DifficultyDialog;
-import com.example.multiplicationmaster.dialogs.DifficultyDialogListener;
-import com.example.multiplicationmaster.ui.train.TrainFragment;
-
-import java.util.Calendar;
-import java.util.GregorianCalendar;
 
 public class SettingsFragment extends Fragment implements AdapterView.OnItemSelectedListener{
 
@@ -38,8 +32,8 @@ public class SettingsFragment extends Fragment implements AdapterView.OnItemSele
     private final int[] AVATAR_IMAGES = {R.drawable.itachi_9, R.drawable.hinnata_9, R.drawable.sasuke_9, R.drawable.kakashi_9, R.drawable.naruto_9};
     private int randomTable;
     private Button lastSelectedButton = null; // Almacena el último botón de tabla de multiplicar seleccionado
-    private int selectedDifficulty = MainActivity.getSelectedDifficulty(); // Nivel de dificultad seleccionado
-    private EditText selectDate; // EditText para mostrar la fecha seleccionada
+    private int difficultySelected = MainActivity.getDifficultySelected(); // Nivel de dificultad seleccionado
+    private EditText dateSelected; // EditText para mostrar la fecha seleccionada
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
@@ -81,51 +75,52 @@ public class SettingsFragment extends Fragment implements AdapterView.OnItemSele
         GridLayout buttonsGrid = binding.gridButtons;
 
         for (int i = 0; i <= 11; i++) {
-            Button btn = createButton(i);
-            // Agrega el botón al GridLayout
-            buttonsGrid.addView(btn, i);
+            Button button = createButton(i);
+            buttonsGrid.addView(button, i);
         }
     }
+
     // Crear un botón con parámetros comunes
     @SuppressLint("SetTextI18n")
     private Button createButton(int i) {
-        Button btn = new Button(getContext());
+        Button button = new Button(getContext());
 
         // Establecer los parámetros de diseño del botón
         int buttonSizeInDp = 50; // Tamaño deseado en dp
         int buttonSizeInPx = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, buttonSizeInDp, getResources().getDisplayMetrics());
 
         ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(buttonSizeInPx, buttonSizeInPx);
-        btn.setLayoutParams(params);
+        button.setLayoutParams(params);
 
-        btn.setId(View.generateViewId()); // Genera un ID único para el botón
-        btn.setTextSize(16); // Modifica el tamaño de los números
+        button.setId(View.generateViewId()); // Genera un ID único para el botón
+        button.setTextSize(16); // Modifica el tamaño de los números
 
         if (i == 11) {
-            btn.setText("?");
+            button.setText("?");
         } else {
-            btn.setText("" + (i));
+            button.setText(String.valueOf(i));
         }
 
-        btn.setTextColor(Color.BLACK);
-        btn.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#F7DC6F")));
-        btn.setOnClickListener(this::onClickTableNumber);
-        return btn;
+        button.setTextColor(Color.BLACK);
+        button.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#F7DC6F")));
+        button.setOnClickListener(this::onClickTableNumber);
+
+        return button;
     }
 
-    // Configurar el OnClickListener del botón dificultad
+    // Configurar el botón dificultad
     private void configureDifficultyButton() {
         Button btnSelectDifficulty = binding.btnSelectDifficulty;
         btnSelectDifficulty.setOnClickListener(this::onClickDifficulty);
     }
 
-    // Configurar el OnClickListener del EditText para la fecha
+    // Configurar el EditText para la fecha
     private void configureDateEditText() {
-        selectDate = binding.edtFecha;
-        selectDate.setText(R.string.select_date);
-        selectDate.setInputType(InputType.TYPE_NULL);
-        selectDate.setOnClickListener(this::onClickDate);
-        selectDate.setFocusable(false);
+        dateSelected = binding.edtFecha;
+        dateSelected.setText(R.string.select_date);
+        dateSelected.setInputType(InputType.TYPE_NULL);
+        dateSelected.setOnClickListener(this::onClickDate);
+        dateSelected.setFocusable(false);
     }
 
     @Override
@@ -138,8 +133,7 @@ public class SettingsFragment extends Fragment implements AdapterView.OnItemSele
         // Lógica cuando no se selecciona ningún elemento en el Spinner
         // Puedes implementar lógica adicional para manejar este caso
     }
-
-    private void select_unselectButton(Button button) {
+    private void selectUnselectButton(Button button) {
         // Desmarca el último botón seleccionado y restaura su color original
         if (lastSelectedButton != null) {
             lastSelectedButton.setSelected(false); // Desmarca el último botón seleccionado
@@ -163,22 +157,20 @@ public class SettingsFragment extends Fragment implements AdapterView.OnItemSele
             Button button = (Button) view;// Si es un botón, conviértelo a un objeto Button
 
             // Desmarca el último botón seleccionado y restaura su color original
-            select_unselectButton(button);
+            selectUnselectButton(button);
 
             if(button.getText().equals("?")){
-                MainActivity.setTableSelect(String.valueOf(randomTable));
+                MainActivity.setTableSelected(String.valueOf(randomTable));
             }else{
-                MainActivity.setTableSelect((String) button.getText()); //Lo utilizaremos para recuperar la tabla seleccionada.
+                MainActivity.setTableSelected((String) button.getText()); //Lo utilizaremos para recuperar la tabla seleccionada.
             }
         }
     }
-
     public void onClickDifficulty(View view) {
         // Diálogo para la selección de dificultad
-        DifficultyDialog difficultyDialog = new DifficultyDialog(selectedDifficulty);
+        DifficultyDialog difficultyDialog = new DifficultyDialog(difficultySelected);
         difficultyDialog.show(getActivity().getSupportFragmentManager(), "DifficultyDialog");
     }
-
     public void onClickDate(View view) {
         // Diálogo para la selección de fecha
         DateDialog dateDialog = new DateDialog();

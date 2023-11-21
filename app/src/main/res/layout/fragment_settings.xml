@@ -5,6 +5,7 @@
     android:id="@+id/settings_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/brown"
     tools:context=".ui.settings.SettingsFragment">
 
     <TextView
@@ -71,7 +72,7 @@
         android:id="@+id/btn_selectDifficulty"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="256dp"
+        android:layout_marginTop="240dp"
         android:onClick="onClickDifficulty"
         android:text="@string/button_selectDifficulty"
         android:textAlignment="center"
@@ -99,6 +100,6 @@
         app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btn_selectDifficulty"
-        app:layout_constraintVertical_bias="0.709" />
+        app:layout_constraintVertical_bias="0.423" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

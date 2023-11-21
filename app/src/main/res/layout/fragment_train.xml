@@ -4,20 +4,21 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/brown"
     tools:context=".ui.train.TrainFragment">
 
     <ImageView
         android:id="@+id/img_avatar"
-        android:layout_width="88dp"
-        android:layout_height="113dp"
-        android:layout_marginStart="36dp"
+        android:layout_width="130dp"
+        android:layout_height="158dp"
         android:layout_marginTop="16dp"
         android:contentDescription="@string/img_avatar_description"
         app:layout_constraintBottom_toTopOf="@+id/txv_multiplication"
-        app:layout_constraintEnd_toEndOf="@+id/txv_result"
-        app:layout_constraintHorizontal_bias="0.178"
-        app:layout_constraintStart_toStartOf="@+id/txv_multiplication"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.775" />
 
     <androidx.gridlayout.widget.GridLayout
         android:id="@+id/grid_buttons"
@@ -29,7 +30,7 @@
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txv_resultOK"
-        app:layout_constraintVertical_bias="0.199"
+        app:layout_constraintVertical_bias="0.111"
         app:rowCount="4">
 
     </androidx.gridlayout.widget.GridLayout>
@@ -50,6 +51,7 @@
         android:id="@+id/txv_multiplication"
         android:layout_width="127dp"
         android:layout_height="32dp"
+        android:background="@color/white"
         android:textAlignment="viewEnd"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="@+id/txv_result"
@@ -61,24 +63,41 @@
         android:id="@+id/txv_result"
         android:layout_width="53dp"
         android:layout_height="32dp"
-        android:layout_marginEnd="116dp"
+        android:layout_marginEnd="108dp"
+        android:background="@color/white"
         android:textAlignment="viewStart"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.24" />
+        app:layout_constraintVertical_bias="0.363" />
 
     <TextView
         android:id="@+id/txv_resultOK"
         android:layout_width="180dp"
         android:layout_height="32dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="12dp"
+        android:background="@color/white"
         android:textAlignment="center"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txv_multiplication" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:fontFamily="sans-serif-condensed-medium"
+        android:text="@string/textView_avatarTrain"
+        android:textAlignment="center"
+        android:textColor="#000000"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txv_multiplication" />
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
