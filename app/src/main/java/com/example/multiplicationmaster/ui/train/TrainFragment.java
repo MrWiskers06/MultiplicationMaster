@@ -41,6 +41,11 @@ public class TrainFragment extends Fragment {
     private int successCounter = 0;
     private int currentImageIndex = 0;
     private ProgressBar progressBar;
+    private ArrayList<String> tablesSelected;
+    private ArrayList<String []> mistakes;
+    private String [] mistakesCurrentTable = new String[10];
+    private int mistakesCounter = 0;
+    private ArrayList<String> percentegesSuccess;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflar el diseño y obtener la vista raíz
@@ -49,6 +54,16 @@ public class TrainFragment extends Fragment {
 
         //Recupera la tabla de multplicar seleccionada
         tableSelected = MainActivity.getTableSelected();
+
+        //Recupera la variable para las tablas de multiplicar seleccionadas para una fecha
+        tablesSelected = MainActivity.getTablesSelected();
+        tablesSelected.add(tableSelected);
+
+        //Recupera la variable para los errores cometidos
+        mistakes = MainActivity.getMistakes();
+
+        //Recupera la variable para los porcentajes de aciertos
+        percentegesSuccess = MainActivity.getPercentegesSuccess();
 
         // Configurar las vistas
         textViewCurrentMultiplication = binding.txvMultiplication;
@@ -106,9 +121,9 @@ public class TrainFragment extends Fragment {
     private int calculateExpectedMultiplier(int table) {
         switch (MainActivity.getDifficultySelected()) {
             case 1: // Medio (descendente)
-                return 10 - currentMultiplier;
+                return 10 - (currentMultiplier-1);
             case 2: // Difícil (aleatorio)
-                return randomOrder.get(currentMultiplier);
+                return randomOrder.get(currentMultiplier-1);
             default: // Fácil (ascendente)
                 return currentMultiplier;
         }
@@ -142,7 +157,14 @@ public class TrainFragment extends Fragment {
             String multiplicationText = table + " X " + multiplier + " = ";
             textViewCurrentMultiplication.setText(multiplicationText);
         }else{
-            Toast.makeText(getContext(), "Felicidades, has finalizado la tabla del " + table, Toast.LENGTH_LONG).show();
+            // Guarda el porcentaje de aciertos
+            String percentageSuccess = String.valueOf((successCounter*100)/10 + " %");
+            percentegesSuccess.add(percentageSuccess);
+
+            // Guarda los errores cometidos en la tabla actual
+            mistakes.add(mistakesCurrentTable);
+
+            //Toast.makeText(getContext(), "Felicidades, has finalizado la tabla del " + table, Toast.LENGTH_LONG).show();
             textViewCurrentMultiplication.setText("");
         }
     }
@@ -195,6 +217,11 @@ public class TrainFragment extends Fragment {
         textViewCurrentMultiplication.setTextColor(Color.RED);
         textViewUserResult.setTextColor(Color.RED);
 
+        // Guarda el error cometido
+        String mistake = textViewCurrentMultiplication.getText() + textViewUserResult.getText().toString().trim();
+        mistakesCurrentTable[mistakesCounter] = mistake;
+        mistakesCounter++;
+
         String textResultExpected = table + " X " + multiplier + " = " + expectedResult;
         textViewResultExpected.setTextColor(Color.GREEN);
         textViewResultExpected.setText(textResultExpected);
@@ -244,7 +271,7 @@ public class TrainFragment extends Fragment {
             }
 
             button.setTextColor(Color.BLACK);
-            button.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#F7DC6F")));
+            button.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#B0956B")));
             button.setOnClickListener(this::onClickTableNumber); // Asocia un OnClickListener para manejar los clics en el botón
             buttonsGrid.addView(button); // Agrega el botón al GridLayout
         }

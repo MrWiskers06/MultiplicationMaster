@@ -102,7 +102,7 @@ public class SettingsFragment extends Fragment implements AdapterView.OnItemSele
         }
 
         button.setTextColor(Color.BLACK);
-        button.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#F7DC6F")));
+        button.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#B0956B")));
         button.setOnClickListener(this::onClickTableNumber);
 
         return button;
@@ -137,7 +137,7 @@ public class SettingsFragment extends Fragment implements AdapterView.OnItemSele
         // Desmarca el último botón seleccionado y restaura su color original
         if (lastSelectedButton != null) {
             lastSelectedButton.setSelected(false); // Desmarca el último botón seleccionado
-            lastSelectedButton.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#F7DC6F"))); // Restaura el color original del último botón
+            lastSelectedButton.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#B0956B"))); // Restaura el color original del último botón
         }
 
         // Selecciona el nuevo botón y establece su color

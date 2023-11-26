@@ -16,6 +16,7 @@ import androidx.navigation.ui.NavigationUI;
 
 import com.example.multiplicationmaster.databinding.ActivityMainBinding;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
@@ -50,7 +51,11 @@ public class MainActivity extends AppCompatActivity implements DifficultyDialogL
     private static String tableSelected; // Recupera la tabla de multiplicar seleccionada
     private static int difficultySelected = 0; // Nivel de dificultad seleccionado por defecto
     private EditText edtDateSelected; // EditText para mostrar la fecha seleccionada
-    private String dateSelected; // Fecha seleccionada
+    private static String dateSelected; // Fecha seleccionada
+    private static ArrayList<String> tablesSelected = new ArrayList<>(); // Tablas de multiplicar seleccionadas
+    private static ArrayList<String []> mistakes = new ArrayList<>(); // Errores cometidos
+    private static ArrayList<String> percentegesSuccess = new ArrayList<>(); // Porcentajes de aciertos
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -127,11 +132,35 @@ public class MainActivity extends AppCompatActivity implements DifficultyDialogL
     }
 
     //Getter and setter para la fecha
-    public String getDateSelected() {
+    public static String getDateSelected() {
         return dateSelected;
     }
-    public void setDateSelected(String dateSelected) {
-        this.dateSelected = dateSelected;
+    public static void setDateSelected(String dateSelected) {
+        MainActivity.dateSelected = dateSelected;
+    }
+
+    //Getter and setter para las tablas seleccionadas
+    public static ArrayList<String> getTablesSelected() {
+        return tablesSelected;
+    }
+    public static void setTablesSelected(ArrayList<String> tablesSelected) {
+        MainActivity.tablesSelected = tablesSelected;
+    }
+
+    //Getter and setter para los errores
+    public static ArrayList<String[]> getMistakes() {
+        return mistakes;
+    }
+    public static void setMistakes(ArrayList<String[]> mistakes) {
+        MainActivity.mistakes = mistakes;
+    }
+
+    //Getter and setter para los porcentajes de aciertos
+    public static ArrayList<String> getPercentegesSuccess() {
+        return percentegesSuccess;
+    }
+    public static void setPercentegesSuccess(ArrayList<String> percentegesSuccess) {
+        MainActivity.percentegesSuccess = percentegesSuccess;
     }
 
     //Implementacion de la interfaz para la dificultad
