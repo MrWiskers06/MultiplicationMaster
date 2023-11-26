@@ -4,4 +4,123 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.stadistics.StatisticsFragment"/>
+    android:background="@color/brown"
+    tools:context=".ui.stadistics.StatisticsFragment">
+
+    <TextView
+        android:id="@+id/txv_avatarsObtained"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="28dp"
+        android:fontFamily="sans-serif-condensed-medium"
+        android:text="@string/txv_avatarsObtained"
+        android:textAlignment="center"
+        android:textColor="#000000"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/img_hinnata"
+        android:layout_width="77dp"
+        android:layout_height="94dp"
+        android:layout_marginStart="36dp"
+        android:layout_marginTop="36dp"
+        android:src="@drawable/hinnata_9"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txv_avatarsObtained" />
+
+    <ImageView
+        android:id="@+id/img_itachi"
+        android:layout_width="77dp"
+        android:layout_height="94dp"
+        android:layout_marginStart="48dp"
+        android:layout_marginTop="36dp"
+        android:layout_marginEnd="96dp"
+        android:src="@drawable/itachi_9"
+        app:layout_constraintEnd_toStartOf="@+id/img_kakashi"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/img_hinnata"
+        app:layout_constraintTop_toBottomOf="@+id/txv_avatarsObtained" />
+
+    <ImageView
+        android:id="@+id/img_kakashi"
+        android:layout_width="77dp"
+        android:layout_height="94dp"
+        android:layout_marginTop="36dp"
+        android:layout_marginEnd="40dp"
+        android:src="@drawable/kakashi_9"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txv_avatarsObtained" />
+
+    <ImageView
+        android:id="@+id/img_naruto"
+        android:layout_width="77dp"
+        android:layout_height="94dp"
+        android:layout_marginStart="100dp"
+        android:layout_marginTop="28dp"
+        android:src="@drawable/naruto_9"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/img_itachi" />
+
+    <ImageView
+        android:id="@+id/img_sasuke"
+        android:layout_width="77dp"
+        android:layout_height="94dp"
+        android:layout_marginTop="28dp"
+        android:layout_marginEnd="108dp"
+        android:src="@drawable/sasuke_9"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/img_itachi" />
+
+    <TextView
+        android:id="@+id/txv_dateSelected"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="28dp"
+        android:fontFamily="sans-serif-condensed-medium"
+        android:textAlignment="center"
+        android:textSize="28sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/img_sasuke" />
+
+    <Spinner
+        android:id="@+id/spinner_tables"
+        android:layout_width="271dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txv_dateSelected" />
+
+    <androidx.gridlayout.widget.GridLayout
+        android:id="@+id/grid_mistakes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        app:columnCount="2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txv_mistakes"
+        app:rowCount="5">
+
+    </androidx.gridlayout.widget.GridLayout>
+
+    <TextView
+        android:id="@+id/txv_mistakes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:fontFamily="sans-serif-condensed-medium"
+        android:text="@string/mistakes"
+        android:textAlignment="center"
+        android:textColor="#000000"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.067"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/spinner_tables" />
+</androidx.constraintlayout.widget.ConstraintLayout>

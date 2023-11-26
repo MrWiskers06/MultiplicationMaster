@@ -4,12 +4,12 @@
     <!--Fragments-->
     <string name="title_settings">Configuración</string>
     <string name="title_train">¡A entrenar!</string>
-    <string name="title_statistics">Estadisticas</string>
+    <string name="title_statistics">Estadísticas</string>
 
     <!--Selección de avatar-->
     <string name="textView_selectAvatar">Selecciona tu personaje favorito</string>
     <string name="img_avatar_description">Imagen sobre el avatar para tu perfil.</string>
-    <string name="textView_avatarTrain">¿Podras conseguir el avatar completo?</string>
+    <string name="textView_avatarTrain">¿Podrás conseguir el avatar completo?</string>
     <string name="itachi_avatar">Itachi</string>
     <string name="sasuke_avatar">Sasuke</string>
     <string name="hinata_avatar">Hinata</string>
@@ -27,6 +27,10 @@
     <string name="exit_dialog">Volver</string>
 
     <!--Edit text Fecha-->
-    <string name="select_datLbl">Selecciona la fecha de hoy</string>
+    <string name="select_dateLbl">Selecciona la fecha de hoy</string>
     <string name="select_date">¿Qué dia es hoy?</string>
+
+    <!--Statistics-->
+    <string name="txv_avatarsObtained">Poderes conseguidos</string>
+    <string name="mistakes">Errores cometidos</string>
 </resources>

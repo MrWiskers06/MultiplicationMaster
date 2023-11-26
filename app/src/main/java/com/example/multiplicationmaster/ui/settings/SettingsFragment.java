@@ -64,10 +64,10 @@ public class SettingsFragment extends Fragment implements AdapterView.OnItemSele
 
     // Configura el Spinner
     private void configureSpinner() {
-        Spinner selectAvatar = binding.spinnerAvatar;
+        Spinner spinnerAvatar = binding.spinnerAvatar;
         CustomSpinnerAdapter personalSpinner = new CustomSpinnerAdapter(SettingsFragment.super.getContext(), R.layout.lines_spinner, AVATARS, AVATAR_IMAGES);
-        selectAvatar.setAdapter(personalSpinner);
-        selectAvatar.setOnItemSelectedListener(this);
+        spinnerAvatar.setAdapter(personalSpinner);
+        spinnerAvatar.setOnItemSelectedListener(this);
     }
 
     // Añade los botones de las tablas de multiplicar

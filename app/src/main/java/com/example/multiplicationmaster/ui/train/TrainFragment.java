@@ -57,7 +57,6 @@ public class TrainFragment extends Fragment {
 
         //Recupera la variable para las tablas de multiplicar seleccionadas para una fecha
         tablesSelected = MainActivity.getTablesSelected();
-        tablesSelected.add(tableSelected);
 
         //Recupera la variable para los errores cometidos
         mistakes = MainActivity.getMistakes();
@@ -157,12 +156,15 @@ public class TrainFragment extends Fragment {
             String multiplicationText = table + " X " + multiplier + " = ";
             textViewCurrentMultiplication.setText(multiplicationText);
         }else{
-            // Guarda el porcentaje de aciertos
-            String percentageSuccess = String.valueOf((successCounter*100)/10 + " %");
-            percentegesSuccess.add(percentageSuccess);
+            // Guarda la tabla de multiplicar practicada
+            tablesSelected.add("Tabla del " + tableSelected);
 
             // Guarda los errores cometidos en la tabla actual
             mistakes.add(mistakesCurrentTable);
+
+            // Guarda el porcentaje de aciertos
+            String percentageSuccess = (successCounter * 100) / 10 + " %";
+            percentegesSuccess.add(percentageSuccess);
 
             //Toast.makeText(getContext(), "Felicidades, has finalizado la tabla del " + table, Toast.LENGTH_LONG).show();
             textViewCurrentMultiplication.setText("");
