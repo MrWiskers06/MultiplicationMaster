@@ -120,7 +120,47 @@
         android:textColor="#000000"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.067"
+        app:layout_constraintHorizontal_bias="0.151"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/spinner_tables" />
+
+    <ProgressBar
+        android:id="@+id/pgb_percentageSuccess"
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+        android:layout_width="106dp"
+        android:layout_height="98dp"
+        android:layout_marginTop="48dp"
+        android:layout_marginEnd="32dp"
+        android:progressDrawable="@drawable/circle_progressbar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/spinner_tables" />
+
+    <TextView
+        android:id="@+id/txv_percentage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-condensed-medium"
+        android:textAlignment="center"
+        android:textColor="#000000"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="@+id/pgb_percentageSuccess"
+        app:layout_constraintEnd_toEndOf="@+id/pgb_percentageSuccess"
+        app:layout_constraintHorizontal_bias="0.491"
+        app:layout_constraintStart_toStartOf="@+id/pgb_percentageSuccess"
+        app:layout_constraintTop_toTopOf="@+id/pgb_percentageSuccess"
+        app:layout_constraintVertical_bias="0.493" />
+
+    <TextView
+        android:id="@+id/txv_success"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="40dp"
+        android:fontFamily="sans-serif-condensed-medium"
+        android:text="@string/success"
+        android:textAlignment="center"
+        android:textColor="#000000"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/spinner_tables" />
 </androidx.constraintlayout.widget.ConstraintLayout>

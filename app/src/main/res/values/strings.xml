@@ -33,4 +33,5 @@
     <!--Statistics-->
     <string name="txv_avatarsObtained">Poderes conseguidos</string>
     <string name="mistakes">Errores cometidos</string>
+    <string name="success">% Aciertos</string>
 </resources>

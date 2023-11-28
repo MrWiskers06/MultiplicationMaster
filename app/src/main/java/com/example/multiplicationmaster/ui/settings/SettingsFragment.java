@@ -147,9 +147,9 @@ public class SettingsFragment extends Fragment implements AdapterView.OnItemSele
 
         if (button.getText().equals("?")){
             randomTable = (int) Math.floor(Math.random() * 11);
-            Toast.makeText(getContext(), "Has seleccionado la tabla del " + randomTable, Toast.LENGTH_SHORT).show();
+            // Toast.makeText(getContext(), "Has seleccionado la tabla del " + randomTable, Toast.LENGTH_SHORT).show();
         }else {
-            Toast.makeText(getContext(), "Has seleccionado la tabla del " + button.getText(), Toast.LENGTH_SHORT).show();
+            // Toast.makeText(getContext(), "Has seleccionado la tabla del " + button.getText(), Toast.LENGTH_SHORT).show();
         }
     }
     public void onClickTableNumber(View view) {

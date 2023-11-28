@@ -31,7 +31,7 @@ public class TrainFragment extends Fragment {
 
     private FragmentTrainBinding binding;
     private Handler handlerShowResults = new Handler();
-    private static final long DELAY_NEXT_MULTIPLICATION = 2500;
+    private static final long DELAY_NEXT_MULTIPLICATION = 100;
     private String tableSelected;
     private ArrayList<Integer> randomOrder;
     private TextView textViewUserResult;
@@ -163,10 +163,10 @@ public class TrainFragment extends Fragment {
             mistakes.add(mistakesCurrentTable);
 
             // Guarda el porcentaje de aciertos
-            String percentageSuccess = (successCounter * 100) / 10 + " %";
+            String percentageSuccess = String.valueOf((successCounter * 100) / 10);
             percentegesSuccess.add(percentageSuccess);
 
-            //Toast.makeText(getContext(), "Felicidades, has finalizado la tabla del " + table, Toast.LENGTH_LONG).show();
+            // Toast.makeText(getContext(), "Felicidades, has finalizado la tabla del " + table, Toast.LENGTH_LONG).show();
             textViewCurrentMultiplication.setText("");
         }
     }
@@ -177,7 +177,8 @@ public class TrainFragment extends Fragment {
 
         if (userResultText.isEmpty()) {
             // Si el campo del resultado está vacío, le pide que introduzca un resultado
-            Toast.makeText(getContext(), "Introduce un resultado", Toast.LENGTH_LONG).show();
+            // Toast.makeText(getContext(), "Introduce un resultado", Toast.LENGTH_LONG).show();
+            textViewUserResult.setError("Introduce un resultado");
             return;
         }
 

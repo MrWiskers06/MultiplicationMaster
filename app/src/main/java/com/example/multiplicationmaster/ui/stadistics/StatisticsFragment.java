@@ -1,5 +1,6 @@
 package com.example.multiplicationmaster.ui.stadistics;
 
+import android.annotation.SuppressLint;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -8,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -30,6 +32,7 @@ public class StatisticsFragment extends Fragment implements AdapterView.OnItemSe
     private ArrayList<String> tablesSelected; // Tablas de multiplicar seleccionadas
     private ArrayList<String []> mistakes; // Errores cometidos
     private ArrayList<String> percentegesSuccess; // Porcentajes de aciertos
+    private ProgressBar progressBarPercentageSuccess;
 
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -37,14 +40,18 @@ public class StatisticsFragment extends Fragment implements AdapterView.OnItemSe
         binding = FragmentStatisticsBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
+        // Obtiene la fecha seleccionada
         dateSelected = MainActivity.getDateSelected();
         textViewDateSelected = binding.txvDateSelected;
         textViewDateSelected.setText(dateSelected); // Muestra la fecha seleccionada en la Configuración
 
+        // Obtiene las tablas de multiplicar seleccionadas
         tablesSelected = MainActivity.getTablesSelected();
-        configureSpinner();
+        configureSpinner(); // Configura el Spinner para seleccionar la tabla practicada y ver los resultados
 
+        // Obtiene los errores cometidos y los porcentajes de aciertos
         mistakes = MainActivity.getMistakes();
+        progressBarPercentageSuccess = binding.pgbPercentageSuccess;
         percentegesSuccess = MainActivity.getPercentegesSuccess();
 
         return root;
@@ -94,6 +101,21 @@ public class StatisticsFragment extends Fragment implements AdapterView.OnItemSe
 
             //Añade el TextView del error a la GridLayout
             gridMistakes.addView(textViewMistake);
+
+            // Añade los porcentajes de aciertos
+            addPercentagesSuccess(position);
         }
+    }
+
+    // Añade los porcentajes de aciertos
+    @SuppressLint("SetTextI18n")
+    private void addPercentagesSuccess(int position) {
+        // Actualiza el progreso de la barra
+        progressBarPercentageSuccess.setMax(10);
+        progressBarPercentageSuccess.setProgress(Integer.parseInt(percentegesSuccess.get(position)));
+
+        // Obtiene el TextView que muestra el porcentaje de aciertos
+        TextView textViewPercentageSuccess = binding.txvPercentage;
+        textViewPercentageSuccess.setText(percentegesSuccess.get(position) + " %");
     }
 }
