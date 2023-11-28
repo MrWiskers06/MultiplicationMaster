@@ -48,6 +48,7 @@ public class MainActivity extends AppCompatActivity implements DifficultyDialogL
     };
     private static String avatarSelected;
     private static int avatarImgSelected;
+    private static ArrayList<String> avatarsCompleted = new ArrayList<>(); // Avatares conseguidos al completo
     private static String tableSelected; // Recupera la tabla de multiplicar seleccionada
     private static int difficultySelected = 0; // Nivel de dificultad seleccionado por defecto
     private EditText edtDateSelected; // EditText para mostrar la fecha seleccionada
@@ -128,6 +129,14 @@ public class MainActivity extends AppCompatActivity implements DifficultyDialogL
                 return AVATAR_KAKASHI;
             default:
                 return null;
+        }
+    }
+    public static ArrayList<String> getAvatarsCompleted() {
+        return avatarsCompleted;
+    }
+    public static void addAvatarCompleted(String avatarCompleted) {
+        if (!avatarsCompleted.contains(avatarCompleted)) {
+            avatarsCompleted.add(avatarCompleted);
         }
     }
 

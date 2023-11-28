@@ -13,7 +13,6 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -65,7 +64,7 @@ public class SettingsFragment extends Fragment implements AdapterView.OnItemSele
     // Configura el Spinner
     private void configureSpinner() {
         Spinner spinnerAvatar = binding.spinnerAvatar;
-        CustomSpinnerAdapter personalSpinner = new CustomSpinnerAdapter(SettingsFragment.super.getContext(), R.layout.lines_spinner, AVATARS, AVATAR_IMAGES);
+        CustomSpinnerAdapter personalSpinner = new CustomSpinnerAdapter(SettingsFragment.super.getContext(), R.layout.spinner_lines, AVATARS, AVATAR_IMAGES);
         spinnerAvatar.setAdapter(personalSpinner);
         spinnerAvatar.setOnItemSelectedListener(this);
     }

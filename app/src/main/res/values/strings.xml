@@ -14,6 +14,7 @@
     <string name="sasuke_avatar">Sasuke</string>
     <string name="hinata_avatar">Hinata</string>
     <string name="kakashi_avatar">Kakashi</string>
+    <string name="naruto_avatar">Naruto</string>
 
     <!--Selección de tabla-->
     <string name="textView_selectTable">¿Qué tabla quieres praticar?</string>

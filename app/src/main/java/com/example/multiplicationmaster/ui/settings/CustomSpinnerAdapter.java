@@ -46,8 +46,8 @@ public class CustomSpinnerAdapter extends ArrayAdapter<String> {
 
     // Método para crear una fila personalizada del Spinner
     public View createCustomRow(int position, View convertView, ViewGroup parent) {
-        // Infla el diseño personalizado (lines_spinner) para la fila
-        View row = inflater.inflate(R.layout.lines_spinner, parent, false);
+        // Infla el diseño personalizado (spinner_lines) para la fila
+        View row = inflater.inflate(R.layout.spinner_lines, parent, false);
 
         // Configura el nombre del avatar y la imagen del avatar en la fila del Spinner
         TextView avatarName = row.findViewById(R.id.nombre);

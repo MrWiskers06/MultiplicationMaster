@@ -28,17 +28,19 @@
         android:layout_marginStart="36dp"
         android:layout_marginTop="36dp"
         android:src="@drawable/hinnata_9"
+        android:visibility="invisible"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txv_avatarsObtained" />
 
     <ImageView
-        android:id="@+id/img_itachi"
+        android:id="@+id/img_Itachi"
         android:layout_width="77dp"
         android:layout_height="94dp"
         android:layout_marginStart="48dp"
         android:layout_marginTop="36dp"
         android:layout_marginEnd="96dp"
         android:src="@drawable/itachi_9"
+        android:visibility="invisible"
         app:layout_constraintEnd_toStartOf="@+id/img_kakashi"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/img_hinnata"
@@ -49,8 +51,9 @@
         android:layout_width="77dp"
         android:layout_height="94dp"
         android:layout_marginTop="36dp"
-        android:layout_marginEnd="40dp"
+        android:layout_marginEnd="24dp"
         android:src="@drawable/kakashi_9"
+        android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txv_avatarsObtained" />
 
@@ -61,18 +64,20 @@
         android:layout_marginStart="100dp"
         android:layout_marginTop="28dp"
         android:src="@drawable/naruto_9"
+        android:visibility="invisible"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/img_itachi" />
+        app:layout_constraintTop_toBottomOf="@+id/img_Itachi" />
 
     <ImageView
         android:id="@+id/img_sasuke"
         android:layout_width="77dp"
         android:layout_height="94dp"
         android:layout_marginTop="28dp"
-        android:layout_marginEnd="108dp"
+        android:layout_marginEnd="112dp"
         android:src="@drawable/sasuke_9"
+        android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/img_itachi" />
+        app:layout_constraintTop_toBottomOf="@+id/img_Itachi" />
 
     <TextView
         android:id="@+id/txv_dateSelected"
@@ -163,4 +168,74 @@
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/spinner_tables" />
+
+    <TextView
+        android:id="@+id/txv_hinnataName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="52dp"
+        android:layout_marginTop="4dp"
+        android:fontFamily="sans-serif-condensed-medium"
+        android:text="@string/hinata_avatar"
+        android:textAlignment="center"
+        android:textColor="#000000"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/img_hinnata" />
+
+    <TextView
+        android:id="@+id/txv_itachiname"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="92dp"
+        android:layout_marginTop="4dp"
+        android:fontFamily="sans-serif-condensed-medium"
+        android:text="@string/itachi_avatar"
+        android:textAlignment="center"
+        android:textColor="#000000"
+        android:textSize="16sp"
+        app:layout_constraintStart_toEndOf="@+id/txv_hinnataName"
+        app:layout_constraintTop_toBottomOf="@+id/img_Itachi" />
+
+    <TextView
+        android:id="@+id/txv_kakashiName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="84dp"
+        android:layout_marginTop="4dp"
+        android:fontFamily="sans-serif-condensed-medium"
+        android:text="@string/kakashi_avatar"
+        android:textAlignment="center"
+        android:textColor="#000000"
+        android:textSize="16sp"
+        app:layout_constraintStart_toEndOf="@+id/txv_itachiname"
+        app:layout_constraintTop_toBottomOf="@+id/img_kakashi" />
+
+    <TextView
+        android:id="@+id/txv_narutoName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="116dp"
+        android:layout_marginTop="3dp"
+        android:fontFamily="sans-serif-condensed-medium"
+        android:text="@string/naruto_avatar"
+        android:textAlignment="center"
+        android:textColor="#000000"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/img_naruto" />
+
+    <TextView
+        android:id="@+id/txv_sasukeName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="124dp"
+        android:fontFamily="sans-serif-condensed-medium"
+        android:text="@string/sasuke_avatar"
+        android:textAlignment="center"
+        android:textColor="#000000"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/img_sasuke" />
 </androidx.constraintlayout.widget.ConstraintLayout>

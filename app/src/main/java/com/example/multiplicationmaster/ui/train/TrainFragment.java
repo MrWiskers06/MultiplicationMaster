@@ -26,6 +26,7 @@ import com.example.multiplicationmaster.databinding.FragmentTrainBinding;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 
 public class TrainFragment extends Fragment {
 
@@ -52,17 +53,10 @@ public class TrainFragment extends Fragment {
         binding = FragmentTrainBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        //Recupera la tabla de multplicar seleccionada
-        tableSelected = MainActivity.getTableSelected();
-
-        //Recupera la variable para las tablas de multiplicar seleccionadas para una fecha
-        tablesSelected = MainActivity.getTablesSelected();
-
-        //Recupera la variable para los errores cometidos
-        mistakes = MainActivity.getMistakes();
-
-        //Recupera la variable para los porcentajes de aciertos
-        percentegesSuccess = MainActivity.getPercentegesSuccess();
+        tableSelected = MainActivity.getTableSelected(); //Recupera la tabla de multplicar seleccionada
+        tablesSelected = MainActivity.getTablesSelected(); //Recupera la variable para las tablas de multiplicar seleccionadas para una fecha
+        mistakes = MainActivity.getMistakes(); //Recupera la variable para los errores cometidos
+        percentegesSuccess = MainActivity.getPercentegesSuccess(); //Recupera la variable para los porcentajes de aciertos
 
         // Configurar las vistas
         textViewCurrentMultiplication = binding.txvMultiplication;
@@ -72,6 +66,8 @@ public class TrainFragment extends Fragment {
 
         // Añade los botones de las tablas de multiplicar para los resultados
         addButtons();
+        // Configura el orden aleatorio en caso de la dificultad dificil
+        randomOrder = generateRandomOrder();
         // Al iniciar el fragmento añade la tabla de multiplicar seleccionada por el usuario en la configuracion
         addTableMultiplication();
 
@@ -84,10 +80,6 @@ public class TrainFragment extends Fragment {
         binding = null;
     }
 
-    public void getAvatarSelected() {
-        ImageView imgAvatar = binding.imgAvatar;
-        imgAvatar.setImageResource(MainActivity.getAvatarImgSelected());
-    }
     // Método para mostrar la siguiente imagen del avatar
     private void showNextAvatarImage() {
         ImageView imgAvatar = binding.imgAvatar;
@@ -108,19 +100,22 @@ public class TrainFragment extends Fragment {
     }
 
     private ArrayList<Integer> generateRandomOrder() {
-        ArrayList<Integer> order = new ArrayList<>();
+        ArrayList<Integer> orderDifficultLevel = new ArrayList<>();
+
         for (int i = 0; i <= 10; i++) {
-            order.add(i);
+            orderDifficultLevel.add(i);
         }
-        Collections.shuffle(order);
-        return order;
+
+        Collections.shuffle(orderDifficultLevel);
+        return orderDifficultLevel;
     }
 
     // Método para calcular el multiplicador esperado según la dificultad
-    private int calculateExpectedMultiplier(int table) {
+    private int calculateExpectedMultiplier() {
+
         switch (MainActivity.getDifficultySelected()) {
             case 1: // Medio (descendente)
-                return 10 - (currentMultiplier-1);
+                return 11 - currentMultiplier;
             case 2: // Difícil (aleatorio)
                 return randomOrder.get(currentMultiplier-1);
             default: // Fácil (ascendente)
@@ -131,9 +126,6 @@ public class TrainFragment extends Fragment {
     @SuppressLint("SetTextI18n")
     public void addTableMultiplication() {
         currentMultiplier = 1;  // Inicializa el multiplicador actual en 1
-
-        // Configura el orden aleatorio en caso de la dificultad dificil
-        randomOrder = generateRandomOrder();
 
         if (tableSelected != null && !tableSelected.isEmpty()) {
             int table = Integer.parseInt(tableSelected);
@@ -151,20 +143,26 @@ public class TrainFragment extends Fragment {
     private void showNextMultiplication(int table) {
         if (currentMultiplier <= 10) {
             // Calcular el multiplicador esperado en funcion de la difciultad seleccionada
-            int multiplier = calculateExpectedMultiplier(table);
+            int multiplier = calculateExpectedMultiplier();
 
             String multiplicationText = table + " X " + multiplier + " = ";
             textViewCurrentMultiplication.setText(multiplicationText);
         }else{
             // Guarda la tabla de multiplicar practicada
-            tablesSelected.add("Tabla del " + tableSelected);
+            tablesSelected.add("Tabla del " + tableSelected + " - " + MainActivity.getAvatarSelected());
 
-            // Guarda los errores cometidos en la tabla actual
+            // Guarda los errores cometidos en la tabla actual para mostrarlos en las estadísticas
             mistakes.add(mistakesCurrentTable);
 
             // Guarda el porcentaje de aciertos
             String percentageSuccess = String.valueOf((successCounter * 100) / 10);
             percentegesSuccess.add(percentageSuccess);
+
+            // Guarda el avatar en caso de que se haya completado la tabla sin errores
+            if (mistakesCounter == 0){
+                String avatarSelected = MainActivity.getAvatarSelected();
+                MainActivity.addAvatarCompleted(avatarSelected);
+            }
 
             // Toast.makeText(getContext(), "Felicidades, has finalizado la tabla del " + table, Toast.LENGTH_LONG).show();
             textViewCurrentMultiplication.setText("");
@@ -183,7 +181,7 @@ public class TrainFragment extends Fragment {
         }
 
         int userResult = Integer.parseInt(userResultText);
-        int multiplier = calculateExpectedMultiplier(table);
+        int multiplier = calculateExpectedMultiplier();
 
         int expectedResult = table * multiplier;
 
