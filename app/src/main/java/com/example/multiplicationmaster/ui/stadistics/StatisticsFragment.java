@@ -17,7 +17,6 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -35,9 +34,9 @@ public class StatisticsFragment extends Fragment implements AdapterView.OnItemSe
     private ArrayList<String> avatarsCompleted; // Avatares conseguidos al completo
     private String dateSelected; // Fecha seleccionada
     private TextView textViewDateSelected;
-    private ArrayList<String> tablesSelected; // Tablas de multiplicar seleccionadas
-    private ArrayList<String []> mistakes; // Errores cometidos
-    private ArrayList<String> percentegesSuccess; // Porcentajes de aciertos
+    private ArrayList<String> tablesCompleted; // Tablas de multiplicar completadas
+    private ArrayList<String []> mistakes; // Errores cometidos en las tablas completadas
+    private ArrayList<String> percentegesSuccess; // Porcentajes de aciertos de las tablas completadas
     private ProgressBar progressBarPercentageSuccess;
     private Button btnSendMail;
 
@@ -59,7 +58,7 @@ public class StatisticsFragment extends Fragment implements AdapterView.OnItemSe
         textViewDateSelected = binding.txvDateSelected;
         textViewDateSelected.setText(dateSelected); // Muestra la fecha seleccionada en la Configuración
 
-        tablesSelected = MainActivity.getTablesSelected(); // Obtiene las tablas de multiplicar seleccionadas
+        tablesCompleted = MainActivity.getTablesCompleted(); // Obtiene las tablas de multiplicar completadas
 
         configureSpinner(); // Configura el Spinner para seleccionar la tabla practicada y ver los resultados
 
@@ -67,7 +66,7 @@ public class StatisticsFragment extends Fragment implements AdapterView.OnItemSe
         mistakes = MainActivity.getMistakes();
         percentegesSuccess = MainActivity.getPercentegesSuccess();
 
-        // Recupera el botón para enviar las estadísticas por mail
+        // Recupera el botón para enviar las estadísticas por mail y configura el onClickListener
         btnSendMail = binding.btnSendMail;
         btnSendMail.setOnClickListener(this::sendMail);
 
@@ -86,7 +85,7 @@ public class StatisticsFragment extends Fragment implements AdapterView.OnItemSe
     // Configura el Spinner
     private void configureSpinner() {
         Spinner spinnerTables = binding.spinnerTables;
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, tablesSelected);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, tablesCompleted);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerTables.setAdapter(adapter);
         spinnerTables.setOnItemSelectedListener(this);
@@ -177,18 +176,20 @@ public class StatisticsFragment extends Fragment implements AdapterView.OnItemSe
     public void sendMail(View view) {
         Intent intent = new Intent();
         Intent chooser = null;
+        EditText editTextEmail = binding.edtMail;
 
-        if (view.getId() == R.id.btn_sendMail) {
-            EditText editTextEmail = binding.edtMail;
+        if (view.getId() == R.id.btn_sendMail && !tablesCompleted.isEmpty() && editTextEmail.getText().toString().trim().length() > 0) {
             intent.setAction(Intent.ACTION_SEND);
             intent.setData(Uri.parse("mailto:"));
-            String[] para = {editTextEmail.getText().toString()};
-            intent.putExtra(Intent.EXTRA_EMAIL, para);
+            String[] posting = {editTextEmail.getText().toString().trim()};
+            intent.putExtra(Intent.EXTRA_EMAIL, posting);
             intent.putExtra(Intent.EXTRA_SUBJECT, "Multiplication Master - Estadísticas");
             intent.putExtra(Intent.EXTRA_TEXT, emailBody());
             intent.setType("message/rfc822");
             chooser = Intent.createChooser(intent, "Enviar Email");
             startActivity(intent);
+        }else{
+            editTextEmail.setError("Introduce un email válido");
         }
     }
 
@@ -197,11 +198,11 @@ public class StatisticsFragment extends Fragment implements AdapterView.OnItemSe
         StringBuilder emailBody = new StringBuilder();
         emailBody.append("Estas son tus estadísticas de Multiplication Master:\n\n");
         emailBody.append("Fecha: ").append(dateSelected).append("\n");
-        emailBody.append("Tablas de multiplicar practicadas: ").append(TextUtils.join(", ", tablesSelected)).append("\n");
+        emailBody.append("Tablas de multiplicar practicadas: ").append(TextUtils.join(", ", tablesCompleted)).append("\n");
 
         // Formatea los errores cometidos
-        for (int i = 0; i < tablesSelected.size(); i++) {
-            emailBody.append("Errores cometidos en la tabla ").append(tablesSelected.get(i)).append(": ").append("\n");
+        for (int i = 0; i < tablesCompleted.size(); i++) {
+            emailBody.append("Errores cometidos en la tabla ").append(tablesCompleted.get(i)).append(": ").append("\n");
             String[] mistakesCurrentTable = mistakes.get(i);
             // Verifica si la lista de errores no es nula y no está vacía
             if (mistakesCurrentTable != null && mistakesCurrentTable.length > 0) {
@@ -219,8 +220,8 @@ public class StatisticsFragment extends Fragment implements AdapterView.OnItemSe
 
         // Formatea los porcentajes de aciertos
         emailBody.append("Porcentajes de aciertos: ").append("\n");
-        for (int i = 0; i < tablesSelected.size(); i++) {
-            emailBody.append("- ").append(tablesSelected.get(i)).append(": ").append(percentegesSuccess.get(i)).append("%\n");
+        for (int i = 0; i < tablesCompleted.size(); i++) {
+            emailBody.append("- ").append(tablesCompleted.get(i)).append(": ").append(percentegesSuccess.get(i)).append("%\n");
         }
 
         emailBody.append("\n¡¡¡Sigue practicando para conseguir más avatares!!!");

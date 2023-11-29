@@ -144,12 +144,12 @@ public class SettingsFragment extends Fragment implements AdapterView.OnItemSele
         button.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#73C6B6"))); // Establece el nuevo color del botón
         lastSelectedButton = button; // Actualiza la referencia al último botón seleccionado
 
-        if (button.getText().equals("?")){
+        /*if (button.getText().equals("?")){
             randomTable = (int) Math.floor(Math.random() * 11);
             // Toast.makeText(getContext(), "Has seleccionado la tabla del " + randomTable, Toast.LENGTH_SHORT).show();
         }else {
             // Toast.makeText(getContext(), "Has seleccionado la tabla del " + button.getText(), Toast.LENGTH_SHORT).show();
-        }
+        }*/
     }
     public void onClickTableNumber(View view) {
         if (view instanceof Button) {

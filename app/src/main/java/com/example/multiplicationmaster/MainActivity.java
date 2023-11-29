@@ -53,9 +53,9 @@ public class MainActivity extends AppCompatActivity implements DifficultyDialogL
     private static int difficultySelected = 0; // Nivel de dificultad seleccionado por defecto
     private EditText edtDateSelected; // EditText para mostrar la fecha seleccionada
     private static String dateSelected; // Fecha seleccionada
-    private static ArrayList<String> tablesSelected = new ArrayList<>(); // Tablas de multiplicar seleccionadas
-    private static ArrayList<String []> mistakes = new ArrayList<>(); // Errores cometidos
-    private static ArrayList<String> percentegesSuccess = new ArrayList<>(); // Porcentajes de aciertos
+    private static ArrayList<String> tablesCompleted = new ArrayList<>(); // Tablas de multiplicar completadas
+    private static ArrayList<String []> mistakes = new ArrayList<>(); // Errores cometidos en las tablas completadas
+    private static ArrayList<String> percentegesSuccess = new ArrayList<>(); // Porcentajes de aciertos de las tablas completadas
 
 
     @Override
@@ -149,11 +149,11 @@ public class MainActivity extends AppCompatActivity implements DifficultyDialogL
     }
 
     //Getter and setter para las tablas seleccionadas
-    public static ArrayList<String> getTablesSelected() {
-        return tablesSelected;
+    public static ArrayList<String> getTablesCompleted() {
+        return tablesCompleted;
     }
-    public static void setTablesSelected(ArrayList<String> tablesSelected) {
-        MainActivity.tablesSelected = tablesSelected;
+    public static void setTablesCompleted(ArrayList<String> tablesCompleted) {
+        MainActivity.tablesCompleted = tablesCompleted;
     }
 
     //Getter and setter para los errores

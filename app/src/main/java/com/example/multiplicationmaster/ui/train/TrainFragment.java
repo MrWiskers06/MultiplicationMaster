@@ -21,22 +21,20 @@ import androidx.fragment.app.Fragment;
 import androidx.gridlayout.widget.GridLayout;
 
 import com.airbnb.lottie.LottieAnimationView;
-import com.airbnb.lottie.LottieComposition;
-import com.airbnb.lottie.LottieCompositionFactory;
 import com.example.multiplicationmaster.MainActivity;
 import com.example.multiplicationmaster.R;
 import com.example.multiplicationmaster.databinding.FragmentTrainBinding;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Date;
 
 public class TrainFragment extends Fragment {
 
     private FragmentTrainBinding binding;
     private Handler handlerShowResults = new Handler();
-    private static final long DELAY_NEXT_MULTIPLICATION = 100;
+    private static final long DELAY_NEXT_MULTIPLICATION = 2000;
     private GridLayout buttonsGrid;
+    private Button lastSelectedButton = null; // Almacena el último botón de tabla de multiplicar seleccionado
     private String tableSelected;
     private ArrayList<Integer> randomOrder;
     private TextView textViewUserResult;
@@ -59,7 +57,7 @@ public class TrainFragment extends Fragment {
         View root = binding.getRoot();
 
         tableSelected = MainActivity.getTableSelected(); //Recupera la tabla de multplicar seleccionada
-        tablesSelected = MainActivity.getTablesSelected(); //Recupera la variable para las tablas de multiplicar seleccionadas para una fecha
+        tablesSelected = MainActivity.getTablesCompleted(); //Recupera la variable para las tablas de multiplicar seleccionadas para una fecha
         mistakes = MainActivity.getMistakes(); //Recupera la variable para los errores cometidos
         percentegesSuccess = MainActivity.getPercentegesSuccess(); //Recupera la variable para los porcentajes de aciertos
 
@@ -226,6 +224,7 @@ public class TrainFragment extends Fragment {
         handlerShowResults.postDelayed(() -> {
             // Después de un breve retardo, limpiar los campos y mostrar la siguiente multiplicación
             clearResultFields();
+            lastSelectedButton.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#B0956B"))); // Restaura el color original del último botón
             currentMultiplier++;
             successCounter++;
             showNextAvatarImage();
@@ -250,6 +249,7 @@ public class TrainFragment extends Fragment {
 
         handlerShowResults.postDelayed(() -> {
             clearResultFields();
+            lastSelectedButton.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#B0956B"))); // Restaura el color original del último botón
             currentMultiplier++;
             showNextMultiplication(table);
         }, DELAY_NEXT_MULTIPLICATION);
@@ -298,6 +298,18 @@ public class TrainFragment extends Fragment {
             buttonsGrid.addView(button); // Agrega el botón al GridLayout
         }
     }
+    private void selectUnselectButton(Button button) {
+        // Desmarca el último botón seleccionado y restaura su color original
+        if (lastSelectedButton != null) {
+            lastSelectedButton.setSelected(false); // Desmarca el último botón seleccionado
+            lastSelectedButton.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#B0956B"))); // Restaura el color original del último botón
+        }
+
+        // Selecciona el nuevo botón y establece su color
+        button.setSelected(true); // Selecciona el nuevo botón
+        button.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#73C6B6"))); // Establece el nuevo color del botón
+        lastSelectedButton = button; // Actualiza la referencia al último botón seleccionado
+    }
     @SuppressLint("ResourceType")
     public void onClickTableNumber(View view) {
         if (view instanceof Button) {
@@ -312,6 +324,7 @@ public class TrainFragment extends Fragment {
                 } else if ("check".equals(button.getTag())) {
                     checkResult(Integer.parseInt(tableSelected));
                 } else {
+                    selectUnselectButton(button);
                     textViewUserResult.append(button.getText());
                 }
             }
