@@ -20,6 +20,9 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.gridlayout.widget.GridLayout;
 
+import com.airbnb.lottie.LottieAnimationView;
+import com.airbnb.lottie.LottieComposition;
+import com.airbnb.lottie.LottieCompositionFactory;
 import com.example.multiplicationmaster.MainActivity;
 import com.example.multiplicationmaster.R;
 import com.example.multiplicationmaster.databinding.FragmentTrainBinding;
@@ -33,6 +36,7 @@ public class TrainFragment extends Fragment {
     private FragmentTrainBinding binding;
     private Handler handlerShowResults = new Handler();
     private static final long DELAY_NEXT_MULTIPLICATION = 100;
+    private GridLayout buttonsGrid;
     private String tableSelected;
     private ArrayList<Integer> randomOrder;
     private TextView textViewUserResult;
@@ -47,6 +51,7 @@ public class TrainFragment extends Fragment {
     private String [] mistakesCurrentTable = new String[10];
     private int mistakesCounter = 0;
     private ArrayList<String> percentegesSuccess;
+    private LottieAnimationView animationView;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflar el diseño y obtener la vista raíz
@@ -63,6 +68,7 @@ public class TrainFragment extends Fragment {
         textViewUserResult = binding.txvResult;
         textViewResultExpected = binding.txvResultOK;
         progressBar = binding.pgbMultiplication;
+        animationView = binding.animationStar;
 
         // Añade los botones de las tablas de multiplicar para los resultados
         addButtons();
@@ -148,6 +154,16 @@ public class TrainFragment extends Fragment {
             String multiplicationText = table + " X " + multiplier + " = ";
             textViewCurrentMultiplication.setText(multiplicationText);
         }else{
+            // Cuando se completa la tabla de multiplicar, oculta los campos de texto y la botonera
+            textViewCurrentMultiplication.setVisibility(View.INVISIBLE);
+            textViewUserResult.setVisibility(View.INVISIBLE);
+            textViewResultExpected.setVisibility(View.INVISIBLE);
+            buttonsGrid.setVisibility(View.INVISIBLE);
+
+            // Muestra la animación de la estrella cuando se completa la tabla
+            animationView.setVisibility(View.VISIBLE);
+            animationView.playAnimation();
+
             // Guarda la tabla de multiplicar practicada
             tablesSelected.add("Tabla del " + tableSelected + " - " + MainActivity.getAvatarSelected());
 
@@ -170,6 +186,7 @@ public class TrainFragment extends Fragment {
     }
 
     // Método para verificar y manejar la respuesta del usuario
+    @SuppressLint("SetTextI18n")
     public void checkResult(int table) {
         String userResultText = textViewUserResult.getText().toString().trim();
 
@@ -188,6 +205,10 @@ public class TrainFragment extends Fragment {
         // Actualiza el progreso de la barra
         progressBar.setMax(10);
         progressBar.setProgress(currentMultiplier);
+
+        // Obtiene el TextView que muestra el porcentaje de prograso
+        TextView textViewPercentageProgress = binding.txvPercentageProgress;
+        textViewPercentageProgress.setText((currentMultiplier*10) + " %");
 
         // Comparar el resultado del usuario con el resultado esperado y manejar la respuesta
         if (userResult == expectedResult) {
@@ -245,7 +266,7 @@ public class TrainFragment extends Fragment {
     // Botonera para introducir los resultados de las multiplicaciones
     @SuppressLint({"SetTextI18n", "ResourceType"})
     public void addButtons() {
-        GridLayout buttonsGrid = binding.gridButtons;
+        buttonsGrid = binding.gridButtons;
         Button button;
 
         for (int i = 9; i >= -2; i--) {

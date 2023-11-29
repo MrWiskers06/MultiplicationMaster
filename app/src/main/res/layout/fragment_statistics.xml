@@ -26,7 +26,7 @@
         android:layout_width="77dp"
         android:layout_height="94dp"
         android:layout_marginStart="36dp"
-        android:layout_marginTop="36dp"
+        android:layout_marginTop="20dp"
         android:src="@drawable/hinnata_9"
         android:visibility="invisible"
         app:layout_constraintStart_toStartOf="parent"
@@ -37,7 +37,7 @@
         android:layout_width="77dp"
         android:layout_height="94dp"
         android:layout_marginStart="48dp"
-        android:layout_marginTop="36dp"
+        android:layout_marginTop="20dp"
         android:layout_marginEnd="96dp"
         android:src="@drawable/itachi_9"
         android:visibility="invisible"
@@ -50,7 +50,7 @@
         android:id="@+id/img_kakashi"
         android:layout_width="77dp"
         android:layout_height="94dp"
-        android:layout_marginTop="36dp"
+        android:layout_marginTop="20dp"
         android:layout_marginEnd="24dp"
         android:src="@drawable/kakashi_9"
         android:visibility="invisible"
@@ -96,7 +96,7 @@
         android:id="@+id/spinner_tables"
         android:layout_width="271dp"
         android:layout_height="50dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txv_dateSelected" />
@@ -105,8 +105,8 @@
         android:id="@+id/grid_mistakes"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginStart="36dp"
+        android:layout_marginTop="8dp"
         app:columnCount="2"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txv_mistakes"
@@ -132,10 +132,10 @@
     <ProgressBar
         android:id="@+id/pgb_percentageSuccess"
         style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-        android:layout_width="106dp"
-        android:layout_height="98dp"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         android:layout_marginTop="48dp"
-        android:layout_marginEnd="32dp"
+        android:layout_marginEnd="40dp"
         android:progressDrawable="@drawable/circle_progressbar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/spinner_tables" />
@@ -238,4 +238,29 @@
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/img_sasuke" />
+
+    <Button
+        android:id="@+id/btn_sendMail"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_marginBottom="68dp"
+        android:text="@string/btn_sendMail"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.9"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <EditText
+        android:id="@+id/edt_mail"
+        android:layout_width="260dp"
+        android:layout_height="50dp"
+        android:layout_marginBottom="68dp"
+        android:ems="10"
+        android:hint="@string/edt_sendMail"
+        android:inputType="text"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.066"
+        app:layout_constraintStart_toStartOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

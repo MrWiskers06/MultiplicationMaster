@@ -1,17 +1,23 @@
 package com.example.multiplicationmaster.ui.stadistics;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -33,6 +39,7 @@ public class StatisticsFragment extends Fragment implements AdapterView.OnItemSe
     private ArrayList<String []> mistakes; // Errores cometidos
     private ArrayList<String> percentegesSuccess; // Porcentajes de aciertos
     private ProgressBar progressBarPercentageSuccess;
+    private Button btnSendMail;
 
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -47,7 +54,7 @@ public class StatisticsFragment extends Fragment implements AdapterView.OnItemSe
         imgAvatarNaruto = binding.imgNaruto;
         imgAvatarSasuke = binding.imgSasuke;
 
-        // Obtiene la fecha seleccionada
+        // Recupera la fecha seleccionada
         dateSelected = MainActivity.getDateSelected();
         textViewDateSelected = binding.txvDateSelected;
         textViewDateSelected.setText(dateSelected); // Muestra la fecha seleccionada en la Configuración
@@ -56,9 +63,13 @@ public class StatisticsFragment extends Fragment implements AdapterView.OnItemSe
 
         configureSpinner(); // Configura el Spinner para seleccionar la tabla practicada y ver los resultados
 
-        // Obtiene los errores cometidos en las tablas practicadas y los porcentajes de aciertos
+        // Recupera los errores cometidos en las tablas practicadas y los porcentajes de aciertos
         mistakes = MainActivity.getMistakes();
         percentegesSuccess = MainActivity.getPercentegesSuccess();
+
+        // Recupera el botón para enviar las estadísticas por mail
+        btnSendMail = binding.btnSendMail;
+        btnSendMail.setOnClickListener(this::sendMail);
 
         // Añade los avatares conseguidos
         addAvatars();
@@ -106,7 +117,7 @@ public class StatisticsFragment extends Fragment implements AdapterView.OnItemSe
             //Personaliza el TextView que muestra el error en el Grid
             TextView textViewMistake = new TextView(getContext());
             textViewMistake.setPadding(10, 0, 50, 10);
-            textViewMistake.setTextSize(20);
+            textViewMistake.setTextSize(16);
             textViewMistake.setTextColor(Color.BLACK);
             textViewMistake.setText(mistake);
 
@@ -159,5 +170,61 @@ public class StatisticsFragment extends Fragment implements AdapterView.OnItemSe
             }
         }
 
+    }
+
+    // Envia las estadisticas por mail al usuario
+    @SuppressLint("IntentReset")
+    public void sendMail(View view) {
+        Intent intent = new Intent();
+        Intent chooser = null;
+
+        if (view.getId() == R.id.btn_sendMail) {
+            EditText editTextEmail = binding.edtMail;
+            intent.setAction(Intent.ACTION_SEND);
+            intent.setData(Uri.parse("mailto:"));
+            String[] para = {editTextEmail.getText().toString()};
+            intent.putExtra(Intent.EXTRA_EMAIL, para);
+            intent.putExtra(Intent.EXTRA_SUBJECT, "Multiplication Master - Estadísticas");
+            intent.putExtra(Intent.EXTRA_TEXT, emailBody());
+            intent.setType("message/rfc822");
+            chooser = Intent.createChooser(intent, "Enviar Email");
+            startActivity(intent);
+        }
+    }
+
+    private String emailBody(){
+        // Formatea el texto para el cuerpo del correo
+        StringBuilder emailBody = new StringBuilder();
+        emailBody.append("Estas son tus estadísticas de Multiplication Master:\n\n");
+        emailBody.append("Fecha: ").append(dateSelected).append("\n");
+        emailBody.append("Tablas de multiplicar practicadas: ").append(TextUtils.join(", ", tablesSelected)).append("\n");
+
+        // Formatea los errores cometidos
+        for (int i = 0; i < tablesSelected.size(); i++) {
+            emailBody.append("Errores cometidos en la tabla ").append(tablesSelected.get(i)).append(": ").append("\n");
+            String[] mistakesCurrentTable = mistakes.get(i);
+            // Verifica si la lista de errores no es nula y no está vacía
+            if (mistakesCurrentTable != null && mistakesCurrentTable.length > 0) {
+                for (String mistake : mistakesCurrentTable) {
+                    // Verifica si el campo mistake no es nulo
+                    if (mistake != null) {
+                        emailBody.append("- ").append(mistake).append("\n");
+                    }
+                }
+                emailBody.append("\n");
+            } else {
+                emailBody.append("No se registraron errores en esta tabla.\n\n");
+            }
+        }
+
+        // Formatea los porcentajes de aciertos
+        emailBody.append("Porcentajes de aciertos: ").append("\n");
+        for (int i = 0; i < tablesSelected.size(); i++) {
+            emailBody.append("- ").append(tablesSelected.get(i)).append(": ").append(percentegesSuccess.get(i)).append("%\n");
+        }
+
+        emailBody.append("\n¡¡¡Sigue practicando para conseguir más avatares!!!");
+
+        return emailBody.toString();
     }
 }

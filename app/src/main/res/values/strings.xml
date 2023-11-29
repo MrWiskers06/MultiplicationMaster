@@ -35,4 +35,6 @@
     <string name="txv_avatarsObtained">Poderes conseguidos</string>
     <string name="mistakes">Errores cometidos</string>
     <string name="success">% Aciertos</string>
+    <string name="edt_sendMail">Introduce un e-mail</string>
+    <string name="btn_sendMail">Enviar</string>
 </resources>
