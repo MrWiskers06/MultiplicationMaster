@@ -1,0 +1,40 @@
+<resources>
+    <string name="app_name">MultiplicationMaster</string>
+
+    <!--Fragments-->
+    <string name="title_settings">Settings</string>
+    <string name="title_train">Let\'s Train!</string>
+    <string name="title_statistics">Statistics</string>
+
+    <!--Avatar Selection-->
+    <string name="textView_selectAvatar">Select your favorite character</string>
+    <string name="img_avatar_description">Image over the avatar for your profile.</string>
+    <string name="textView_avatarTrain">Can you collect the complete avatar?</string>
+    <string name="itachi_avatar">Itachi</string>
+    <string name="sasuke_avatar">Sasuke</string>
+    <string name="hinata_avatar">Hinata</string>
+    <string name="kakashi_avatar">Kakashi</string>
+    <string name="naruto_avatar">Naruto</string>
+
+    <!--Multiplication Table Selection-->
+    <string name="textView_selectTable">Which multiplication table do you want to practice?</string>
+
+    <!--Difficulty Dialog-->
+    <string name="button_selectDifficulty">Select difficulty</string>
+    <string name="choose_difficulty">Choose the difficulty level</string>
+    <string name="easy_difficulty">Easy - (Ascending order)</string>
+    <string name="normal_difficulty">Medium - (Descending order)</string>
+    <string name="hard_difficulty">Hard - (Random order)</string>
+    <string name="exit_dialog">Back</string>
+
+    <!--Edit text Date-->
+    <string name="select_dateLbl">Select today\'s date</string>
+    <string name="select_date">What day is it today?</string>
+
+    <!--Statistics-->
+    <string name="txv_avatarsObtained">Powers obtained</string>
+    <string name="mistakes">Mistakes made</string>
+    <string name="success">% Success</string>
+    <string name="edt_sendMail">Enter an email</string>
+    <string name="btn_sendMail">Send</string>
+</resources>
