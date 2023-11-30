@@ -9,6 +9,7 @@ import com.example.multiplicationmaster.dialogs.DifficultyDialogListener;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -64,6 +65,8 @@ public class MainActivity extends AppCompatActivity implements DifficultyDialogL
         // Infla el diseño de la actividad utilizando el enlace de datos generado por View Binding.
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
 
         configureActionBarAndBottomNav();
     }
