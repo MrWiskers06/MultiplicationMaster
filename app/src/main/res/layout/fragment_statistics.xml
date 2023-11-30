@@ -28,7 +28,6 @@
         android:layout_marginStart="36dp"
         android:layout_marginTop="20dp"
         android:src="@drawable/hinnata_9"
-        android:visibility="invisible"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txv_avatarsObtained" />
 
@@ -40,7 +39,6 @@
         android:layout_marginTop="20dp"
         android:layout_marginEnd="96dp"
         android:src="@drawable/itachi_9"
-        android:visibility="invisible"
         app:layout_constraintEnd_toStartOf="@+id/img_kakashi"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/img_hinnata"
@@ -53,7 +51,6 @@
         android:layout_marginTop="20dp"
         android:layout_marginEnd="24dp"
         android:src="@drawable/kakashi_9"
-        android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txv_avatarsObtained" />
 
@@ -64,7 +61,6 @@
         android:layout_marginStart="100dp"
         android:layout_marginTop="28dp"
         android:src="@drawable/naruto_9"
-        android:visibility="invisible"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/img_Itachi" />
 
@@ -75,7 +71,6 @@
         android:layout_marginTop="28dp"
         android:layout_marginEnd="112dp"
         android:src="@drawable/sasuke_9"
-        android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/img_Itachi" />
 
@@ -86,7 +81,7 @@
         android:layout_marginTop="28dp"
         android:fontFamily="sans-serif-condensed-medium"
         android:textAlignment="center"
-        android:textSize="28sp"
+        android:textSize="22sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"

@@ -24,15 +24,15 @@ import com.example.multiplicationmaster.databinding.FragmentSettingsBinding;
 import com.example.multiplicationmaster.dialogs.DateDialog;
 import com.example.multiplicationmaster.dialogs.DifficultyDialog;
 
+import java.util.Objects;
+
 public class SettingsFragment extends Fragment implements AdapterView.OnItemSelectedListener{
 
     private FragmentSettingsBinding binding; // Clase autogenerada que representa el binding con el layout del fragmento
     private final String[] AVATARS = {"Itachi", "Hinata", "Sasuke", "Kakashi", "Naruto"};
     private final int[] AVATAR_IMAGES = {R.drawable.itachi_9, R.drawable.hinnata_9, R.drawable.sasuke_9, R.drawable.kakashi_9, R.drawable.naruto_9};
-    private int randomTable;
     private Button lastSelectedButton = null; // Almacena el último botón de tabla de multiplicar seleccionado
     private int difficultySelected = MainActivity.getDifficultySelected(); // Nivel de dificultad seleccionado
-    private EditText dateSelected; // EditText para mostrar la fecha seleccionada
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
@@ -115,7 +115,8 @@ public class SettingsFragment extends Fragment implements AdapterView.OnItemSele
 
     // Configurar el EditText para la fecha
     private void configureDateEditText() {
-        dateSelected = binding.edtFecha;
+        // EditText para mostrar la fecha seleccionada
+        EditText dateSelected = binding.edtFecha;
         dateSelected.setText(R.string.select_date);
         dateSelected.setInputType(InputType.TYPE_NULL);
         dateSelected.setOnClickListener(this::onClickDate);
@@ -152,7 +153,7 @@ public class SettingsFragment extends Fragment implements AdapterView.OnItemSele
             selectUnselectButton(button);
 
             if(button.getText().equals("?")){
-                randomTable = (int) Math.floor(Math.random() * 11);
+                int randomTable = (int) Math.floor(Math.random() * 11);
                 MainActivity.setTableSelected(String.valueOf(randomTable));
             }else{
                 MainActivity.setTableSelected((String) button.getText()); //Lo utilizaremos para recuperar la tabla seleccionada.
@@ -162,11 +163,11 @@ public class SettingsFragment extends Fragment implements AdapterView.OnItemSele
     public void onClickDifficulty(View view) {
         // Diálogo para la selección de dificultad
         DifficultyDialog difficultyDialog = new DifficultyDialog(difficultySelected);
-        difficultyDialog.show(getActivity().getSupportFragmentManager(), "DifficultyDialog");
+        difficultyDialog.show(requireActivity().getSupportFragmentManager(), "DifficultyDialog");
     }
     public void onClickDate(View view) {
         // Diálogo para la selección de fecha
         DateDialog dateDialog = new DateDialog();
-        dateDialog.show(getActivity().getSupportFragmentManager(), "DateDialog");
+        dateDialog.show(requireActivity().getSupportFragmentManager(), "DateDialog");
     }
 }

@@ -24,38 +24,48 @@ import java.util.GregorianCalendar;
 public class MainActivity extends AppCompatActivity implements DifficultyDialogListener, DateDialogListener {
     private ActivityMainBinding binding; // Enlace de datos
     private static final int[] AVATAR_ITACHI = {
-            R.drawable.itachi_2, R.drawable.itachi_5,
-            R.drawable.itachi_7, R.drawable.itachi_8, R.drawable.itachi_9
+            R.drawable.itachi_1, R.drawable.itachi_2, R.drawable.itachi_3,
+            R.drawable.itachi_4, R.drawable.itachi_5, R.drawable.itachi_6,
+            R.drawable.itachi_7, R.drawable.itachi_8,
+            R.drawable.itachi_9, R.drawable.itachi_9
     };
 
     private static final int[] AVATAR_HINATA = {
-            R.drawable.hinnata_2, R.drawable.hinnata_5,
-            R.drawable.hinnata_7, R.drawable.hinnata_8, R.drawable.hinnata_9
+            R.drawable.hinnata_1, R.drawable.hinnata_2, R.drawable.hinnata_3,
+            R.drawable.hinnata_4, R.drawable.hinnata_5, R.drawable.hinnata_6,
+            R.drawable.hinnata_7, R.drawable.hinnata_8,
+            R.drawable.hinnata_9, R.drawable.hinnata_9
     };
 
     private static final int[] AVATAR_NARUTO = {
-            R.drawable.naruto_2, R.drawable.naruto_5,
-            R.drawable.naruto_7, R.drawable.naruto_8, R.drawable.naruto_9
+            R.drawable.naruto_1, R.drawable.naruto_2, R.drawable.naruto_3,
+            R.drawable.naruto_4, R.drawable.naruto_5, R.drawable.naruto_6,
+            R.drawable.naruto_7, R.drawable.naruto_8,
+            R.drawable.naruto_9, R.drawable.naruto_9
     };
 
     private static final int[] AVATAR_SASUKE = {
-            R.drawable.sasuke_2, R.drawable.sasuke_5,
-            R.drawable.sasuke_7, R.drawable.sasuke_8, R.drawable.sasuke_9
+            R.drawable.sasuke_1, R.drawable.sasuke_2, R.drawable.sasuke_3,
+            R.drawable.sasuke_4, R.drawable.sasuke_5, R.drawable.sasuke_6,
+            R.drawable.sasuke_7, R.drawable.sasuke_8,
+            R.drawable.sasuke_9, R.drawable.sasuke_9
     };
 
     private static final int[] AVATAR_KAKASHI = {
-            R.drawable.kakashi_2, R.drawable.kakashi_5,
-            R.drawable.kakashi_7, R.drawable.kakashi_8, R.drawable.kakashi_9
+            R.drawable.kakashi_1, R.drawable.kakashi_2, R.drawable.kakashi_3,
+            R.drawable.kakashi_4, R.drawable.kakashi_5, R.drawable.kakashi_6,
+            R.drawable.kakashi_7, R.drawable.kakashi_8,
+            R.drawable.kakashi_9, R.drawable.kakashi_9
     };
+
     private static String avatarSelected;
     private static int avatarImgSelected;
     private static ArrayList<String> avatarsCompleted = new ArrayList<>(); // Avatares conseguidos al completo
     private static String tableSelected; // Recupera la tabla de multiplicar seleccionada
     private static int difficultySelected = 0; // Nivel de dificultad seleccionado por defecto
-    private EditText edtDateSelected; // EditText para mostrar la fecha seleccionada
     private static String dateSelected; // Fecha seleccionada
     private static ArrayList<String> tablesCompleted = new ArrayList<>(); // Tablas de multiplicar completadas
-    private static ArrayList<String []> mistakes = new ArrayList<>(); // Errores cometidos en las tablas completadas
+    private static ArrayList<ArrayList<String>> mistakes = new ArrayList<>(); // Errores cometidos en las tablas completadas
     private static ArrayList<String> percentegesSuccess = new ArrayList<>(); // Porcentajes de aciertos de las tablas completadas
 
 
@@ -160,10 +170,10 @@ public class MainActivity extends AppCompatActivity implements DifficultyDialogL
     }
 
     //Getter and setter para los errores
-    public static ArrayList<String[]> getMistakes() {
+    public static ArrayList<ArrayList<String>> getMistakes() {
         return mistakes;
     }
-    public static void setMistakes(ArrayList<String[]> mistakes) {
+    public static void setMistakes(ArrayList<ArrayList<String>> mistakes) {
         MainActivity.mistakes = mistakes;
     }
 
@@ -185,7 +195,8 @@ public class MainActivity extends AppCompatActivity implements DifficultyDialogL
     @SuppressLint("SetTextI18n")
     @Override
     public void onSelectedDate(GregorianCalendar date) {
-        edtDateSelected = findViewById(R.id.edt_fecha);
+        // EditText para mostrar la fecha seleccionada
+        EditText edtDateSelected = findViewById(R.id.edt_fecha);
 
         edtDateSelected.setText(date.get(Calendar.DAY_OF_MONTH) + "/"
                 + (date.get(Calendar.MONTH) + 1) + "/" // Se suma 1 porque en Calendar, enero es 0

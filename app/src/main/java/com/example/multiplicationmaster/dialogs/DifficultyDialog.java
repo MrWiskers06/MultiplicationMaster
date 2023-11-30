@@ -12,6 +12,7 @@ import androidx.fragment.app.DialogFragment;
 
 import com.example.multiplicationmaster.R;
 
+
 public class DifficultyDialog extends DialogFragment {
     private DifficultyDialogListener difficultyListener; // Listener para comunicar la dificultad seleccionada al fragmento que lo invoca
     private int difficultySelected; // Dificultad seleccionada actualmente
@@ -32,7 +33,7 @@ public class DifficultyDialog extends DialogFragment {
         };
 
         // Crear un AlertDialog con las opciones de dificultad
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity());
         builder.setTitle(R.string.choose_difficulty);
 
         // Configurar las opciones de dificultad como elementos seleccionables

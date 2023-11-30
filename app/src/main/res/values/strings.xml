@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">MultiplicationMaster</string>
+    <string name="app_name">Multiplication Master</string>
 
     <!--Fragments-->
     <string name="title_settings">Configuración</string>
@@ -33,7 +33,9 @@
 
     <!--Statistics-->
     <string name="txv_avatarsObtained">Poderes conseguidos</string>
+    <string name="txv_selectedDate">Selecciona una fecha en la configuración</string>
     <string name="mistakes">Errores cometidos</string>
+    <string name="message_noMistakes">¡FELICIDADES!</string>
     <string name="success">% Aciertos</string>
     <string name="edt_sendMail">Introduce un e-mail</string>
     <string name="btn_sendMail">Enviar</string>

@@ -3,6 +3,9 @@ package com.example.multiplicationmaster.ui.train;
 import android.annotation.SuppressLint;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.graphics.ColorFilter;
+import android.graphics.ColorMatrix;
+import android.graphics.ColorMatrixColorFilter;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.Editable;
@@ -45,8 +48,8 @@ public class TrainFragment extends Fragment {
     private int currentImageIndex = 0;
     private ProgressBar progressBar;
     private ArrayList<String> tablesSelected;
-    private ArrayList<String []> mistakes;
-    private String [] mistakesCurrentTable = new String[10];
+    private ArrayList<ArrayList<String>> mistakes;
+    private ArrayList<String> mistakesCurrentTable = new ArrayList<>();
     private int mistakesCounter = 0;
     private ArrayList<String> percentegesSuccess;
     private LottieAnimationView animationView;
@@ -90,15 +93,26 @@ public class TrainFragment extends Fragment {
         String avatarName = MainActivity.getAvatarSelected();
         int[] avatarProgressImages = MainActivity.getAvatarProgressImages(avatarName);
 
+        ColorMatrix colorMatrix = new ColorMatrix();
+        colorMatrix.setSaturation(0f); // Establece la matriz para la saturacion de colores (black&white)
+
+        ColorFilter colorFilter = new ColorMatrixColorFilter(colorMatrix); // Establece el filtro para la imagen en base a la matriz de creada
+
         if (avatarProgressImages != null && currentMultiplier >= 0) {
-            // Verifica si currentImageIndex es un número par, para mostrar la siguiente imagen del avatar cada dos aciertos.
-            if (successCounter % 2 == 0) {
-                // Verifica si el índice calculado está dentro del rango del array avatarProgressImages.
-                if (currentImageIndex >= 0 && currentImageIndex < avatarProgressImages.length) {
-                    // Establece la imagen en imgAvatar usando el índice calculado de avatarProgressImages.
+            // Verifica si el índice calculado está dentro del rango del array avatarProgressImages.
+            if (currentImageIndex >= 0 && currentImageIndex < avatarProgressImages.length) {
+                // Establece la imagen en imgAvatar usando el índice calculado de avatarProgressImages.
+                // Si el índice es 8, establece el filtro de color para la imagen del avatar en blanco y negro
+                if (currentImageIndex == 8) {
+                    imgAvatar.setColorFilter(colorFilter);
                     imgAvatar.setImageResource(avatarProgressImages[currentImageIndex]);
-                    currentImageIndex++;
+                }else if (currentImageIndex == 9) {
+                    imgAvatar.clearColorFilter();
+                    imgAvatar.setImageResource(avatarProgressImages[currentImageIndex]);
+                } else{
+                    imgAvatar.setImageResource(avatarProgressImages[currentImageIndex]);
                 }
+                currentImageIndex++;
             }
         }
     }
@@ -121,7 +135,7 @@ public class TrainFragment extends Fragment {
             case 1: // Medio (descendente)
                 return 11 - currentMultiplier;
             case 2: // Difícil (aleatorio)
-                return randomOrder.get(currentMultiplier-1);
+                return randomOrder.get(currentMultiplier - 1);
             default: // Fácil (ascendente)
                 return currentMultiplier;
         }
@@ -151,7 +165,7 @@ public class TrainFragment extends Fragment {
 
             String multiplicationText = table + " X " + multiplier + " = ";
             textViewCurrentMultiplication.setText(multiplicationText);
-        }else{
+        } else {
             // Cuando se completa la tabla de multiplicar, oculta los campos de texto y la botonera
             textViewCurrentMultiplication.setVisibility(View.INVISIBLE);
             textViewUserResult.setVisibility(View.INVISIBLE);
@@ -173,7 +187,7 @@ public class TrainFragment extends Fragment {
             percentegesSuccess.add(percentageSuccess);
 
             // Guarda el avatar en caso de que se haya completado la tabla sin errores
-            if (mistakesCounter == 0){
+            if (mistakesCounter == 0) {
                 String avatarSelected = MainActivity.getAvatarSelected();
                 MainActivity.addAvatarCompleted(avatarSelected);
             }
@@ -206,7 +220,7 @@ public class TrainFragment extends Fragment {
 
         // Obtiene el TextView que muestra el porcentaje de prograso
         TextView textViewPercentageProgress = binding.txvPercentageProgress;
-        textViewPercentageProgress.setText((currentMultiplier*10) + " %");
+        textViewPercentageProgress.setText((currentMultiplier * 10) + " %");
 
         // Comparar el resultado del usuario con el resultado esperado y manejar la respuesta
         if (userResult == expectedResult) {
@@ -240,7 +254,7 @@ public class TrainFragment extends Fragment {
 
         // Guarda el error cometido
         String mistake = textViewCurrentMultiplication.getText() + textViewUserResult.getText().toString().trim();
-        mistakesCurrentTable[mistakesCounter] = mistake;
+        mistakesCurrentTable.add(mistake);
         mistakesCounter++;
 
         String textResultExpected = table + " X " + multiplier + " = " + expectedResult;
@@ -298,6 +312,7 @@ public class TrainFragment extends Fragment {
             buttonsGrid.addView(button); // Agrega el botón al GridLayout
         }
     }
+
     private void selectUnselectButton(Button button) {
         // Desmarca el último botón seleccionado y restaura su color original
         if (lastSelectedButton != null) {
@@ -310,12 +325,13 @@ public class TrainFragment extends Fragment {
         button.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#73C6B6"))); // Establece el nuevo color del botón
         lastSelectedButton = button; // Actualiza la referencia al último botón seleccionado
     }
+
     @SuppressLint("ResourceType")
     public void onClickTableNumber(View view) {
         if (view instanceof Button) {
             Button button = (Button) view;// Si es un botón, conviértelo a un objeto Button
 
-            if (tableSelected != null && !tableSelected.isEmpty() && currentMultiplier <=10) {
+            if (tableSelected != null && !tableSelected.isEmpty() && currentMultiplier <= 10) {
                 if ("backspace".equals(button.getTag())) {
                     Editable editable = textViewUserResult.getEditableText(); //Crea un objeto Editable que contiene el texto editable del textViewUserResult
                     if (textViewUserResult.length() > 0) {

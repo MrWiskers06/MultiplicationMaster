@@ -16,6 +16,7 @@ public class DateDialog extends DialogFragment implements DatePickerDialog.OnDat
 
     DateDialogListener dateListener; // Listener para comunicar la fecha seleccionada al fragmento que lo invoca
 
+    @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         // Obtener la fecha actual
@@ -25,7 +26,7 @@ public class DateDialog extends DialogFragment implements DatePickerDialog.OnDat
         int day = calendar.get(Calendar.DAY_OF_MONTH);
 
         // Crear un nuevo DatePickerDialog con la fecha actual
-        return new DatePickerDialog(getActivity(), this, year, month, day);
+        return new DatePickerDialog(requireActivity(), this, year, month, day);
     }
 
     @Override

@@ -8,6 +8,8 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+
 import com.example.multiplicationmaster.R;
 
 public class CustomSpinnerAdapter extends ArrayAdapter<String> {
@@ -32,14 +34,15 @@ public class CustomSpinnerAdapter extends ArrayAdapter<String> {
 
     // Método para obtener la vista de un elemento en la lista desplegable del Spinner
     @Override
-    public View getDropDownView(int position, View convertView, ViewGroup parent) {
+    public View getDropDownView(int position, View convertView, @NonNull ViewGroup parent) {
         // Llama al método createCustomRow para crear una vista personalizada
         return createCustomRow(position, convertView, parent);
     }
 
     // Método para obtener la vista de un elemento seleccionado en el Spinner
+    @NonNull
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(int position, View convertView, @NonNull ViewGroup parent) {
         // Llama al método createCustomRow para crear una vista personalizada
         return createCustomRow(position, convertView, parent);
     }

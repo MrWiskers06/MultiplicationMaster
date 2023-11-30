@@ -3,9 +3,12 @@ package com.example.multiplicationmaster.ui.stadistics;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.ColorFilter;
+import android.graphics.ColorMatrix;
+import android.graphics.ColorMatrixColorFilter;
+import android.icu.text.SimpleDateFormat;
 import android.net.Uri;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,18 +30,18 @@ import com.example.multiplicationmaster.R;
 import com.example.multiplicationmaster.databinding.FragmentStatisticsBinding;
 
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
 
 public class StatisticsFragment extends Fragment implements AdapterView.OnItemSelectedListener{
     private FragmentStatisticsBinding binding;
-    private static ImageView imgAvatarHinnata, imgAvatarItachi, imgAvatarKakashi, imgAvatarNaruto, imgAvatarSasuke; // Imagen del avatar seleccionado y conseguido al completo
-    private ArrayList<String> avatarsCompleted; // Avatares conseguidos al completo
+    private ImageView imgAvatarHinnata, imgAvatarItachi, imgAvatarKakashi, imgAvatarNaruto, imgAvatarSasuke; // Imagen del avatar seleccionado y conseguido al completo
     private String dateSelected; // Fecha seleccionada
     private TextView textViewDateSelected;
     private ArrayList<String> tablesCompleted; // Tablas de multiplicar completadas
-    private ArrayList<String []> mistakes; // Errores cometidos en las tablas completadas
+    private ArrayList<ArrayList<String>> mistakes; // Errores cometidos en las tablas completadas
     private ArrayList<String> percentegesSuccess; // Porcentajes de aciertos de las tablas completadas
     private ProgressBar progressBarPercentageSuccess;
-    private Button btnSendMail;
 
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -53,21 +56,23 @@ public class StatisticsFragment extends Fragment implements AdapterView.OnItemSe
         imgAvatarNaruto = binding.imgNaruto;
         imgAvatarSasuke = binding.imgSasuke;
 
+        // Configurar imagenes en blanco y negro
+
         // Recupera la fecha seleccionada
         dateSelected = MainActivity.getDateSelected();
         textViewDateSelected = binding.txvDateSelected;
-        textViewDateSelected.setText(dateSelected); // Muestra la fecha seleccionada en la Configuración
+        configureDate();
 
         tablesCompleted = MainActivity.getTablesCompleted(); // Obtiene las tablas de multiplicar completadas
 
         configureSpinner(); // Configura el Spinner para seleccionar la tabla practicada y ver los resultados
-
+        configureImages(); // Configura el color de las imagenes en blanco y negro
         // Recupera los errores cometidos en las tablas practicadas y los porcentajes de aciertos
         mistakes = MainActivity.getMistakes();
         percentegesSuccess = MainActivity.getPercentegesSuccess();
 
         // Recupera el botón para enviar las estadísticas por mail y configura el onClickListener
-        btnSendMail = binding.btnSendMail;
+        Button btnSendMail = binding.btnSendMail;
         btnSendMail.setOnClickListener(this::sendMail);
 
         // Añade los avatares conseguidos
@@ -85,11 +90,38 @@ public class StatisticsFragment extends Fragment implements AdapterView.OnItemSe
     // Configura el Spinner
     private void configureSpinner() {
         Spinner spinnerTables = binding.spinnerTables;
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, tablesCompleted);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_spinner_item, tablesCompleted);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerTables.setAdapter(adapter);
         spinnerTables.setOnItemSelectedListener(this);
     }
+
+    // Configura la imagenes de los avatares en blanco y negro
+    private void configureImages() {
+        ColorMatrix colorMatrix = new ColorMatrix();
+        colorMatrix.setSaturation(0f); // Establece la matriz para la saturacion de colores (black&white)
+
+        ColorFilter colorFilter = new ColorMatrixColorFilter(colorMatrix); // Establece el filtro para la imagen en base a la matriz de creada
+
+        imgAvatarHinnata.setColorFilter(colorFilter);
+        imgAvatarItachi.setColorFilter(colorFilter);
+        imgAvatarKakashi.setColorFilter(colorFilter);
+        imgAvatarSasuke.setColorFilter(colorFilter);
+        imgAvatarNaruto.setColorFilter(colorFilter);
+    }
+
+    private void configureDate(){
+        if (dateSelected != null){
+            textViewDateSelected.setText(dateSelected); // Muestra la fecha seleccionada en la Configuración
+        }else{
+            // Si no se ha seleccionado ninguna fecha, obtener la fecha del sistema
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+            String currentDate = sdf.format(new Date());
+            textViewDateSelected.setText(currentDate);
+        }
+    }
+
+
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         addMistakes(position);
@@ -107,21 +139,33 @@ public class StatisticsFragment extends Fragment implements AdapterView.OnItemSe
         gridMistakes.removeAllViews(); // Elimina los errores de la tabla de multiplicar anteriormente seleccionada
 
         // Obtiene los errores de la tabla de multiplicar seleccionada
-        String [] mistakesTableSelected = mistakes.get(position);
+        ArrayList<String> mistakesTableSelected = mistakes.get(position);
 
-        // Añade los errores a la GridLayout en relacion a la tabla de multiplicar seleccionada en el spinner
-        for (int i = 0; i < mistakesTableSelected.length; i++) {
-            String mistake = mistakesTableSelected[i];
-
+        if (mistakesTableSelected.size() == 0) {
             //Personaliza el TextView que muestra el error en el Grid
             TextView textViewMistake = new TextView(getContext());
             textViewMistake.setPadding(10, 0, 50, 10);
             textViewMistake.setTextSize(16);
             textViewMistake.setTextColor(Color.BLACK);
-            textViewMistake.setText(mistake);
+            textViewMistake.setText(R.string.message_noMistakes);
 
             //Añade el TextView del error a la GridLayout
             gridMistakes.addView(textViewMistake);
+        }else {
+            // Añade los errores a la GridLayout en relacion a la tabla de multiplicar seleccionada en el spinner
+            for (int i = 0; i < mistakesTableSelected.size(); i++) {
+                String mistake = mistakesTableSelected.get(i);
+
+                //Personaliza el TextView que muestra el error en el Grid
+                TextView textViewMistake = new TextView(getContext());
+                textViewMistake.setPadding(10, 0, 50, 10);
+                textViewMistake.setTextSize(16);
+                textViewMistake.setTextColor(Color.BLACK);
+                textViewMistake.setText(mistake);
+
+                //Añade el TextView del error a la GridLayout
+                gridMistakes.addView(textViewMistake);
+            }
         }
 
         // Añade los porcentajes de aciertos
@@ -143,7 +187,8 @@ public class StatisticsFragment extends Fragment implements AdapterView.OnItemSe
     // Añade los avatares conseguidos
     private void addAvatars(){
         // Obtiene la lista de avatares conseguidos
-        avatarsCompleted = MainActivity.getAvatarsCompleted();
+        // Avatares conseguidos al completo
+        ArrayList<String> avatarsCompleted = MainActivity.getAvatarsCompleted();
 
         // Comprueba si hay avatares conseguidos y los muestra
         if (avatarsCompleted.size() > 0) {
@@ -151,19 +196,19 @@ public class StatisticsFragment extends Fragment implements AdapterView.OnItemSe
             for (String avatarCompleted : avatarsCompleted) {
                 switch (avatarCompleted) {
                     case "Hinata":
-                        imgAvatarHinnata.setVisibility(View.VISIBLE);
+                        imgAvatarHinnata.clearColorFilter();
                         break;
                     case "Itachi":
-                        imgAvatarItachi.setVisibility(View.VISIBLE);
+                        imgAvatarItachi.clearColorFilter();
                         break;
                     case "Kakashi":
-                        imgAvatarKakashi.setVisibility(View.VISIBLE);
+                        imgAvatarKakashi.clearColorFilter();
                         break;
                     case "Naruto":
-                        imgAvatarNaruto.setVisibility(View.VISIBLE);
+                        imgAvatarNaruto.clearColorFilter();
                         break;
                     case "Sasuke":
-                        imgAvatarSasuke.setVisibility(View.VISIBLE);
+                        imgAvatarSasuke.clearColorFilter();
                         break;
                 }
             }
@@ -197,31 +242,34 @@ public class StatisticsFragment extends Fragment implements AdapterView.OnItemSe
         // Formatea el texto para el cuerpo del correo
         StringBuilder emailBody = new StringBuilder();
         emailBody.append("Estas son tus estadísticas de Multiplication Master:\n\n");
-        emailBody.append("Fecha: ").append(dateSelected).append("\n");
-        emailBody.append("Tablas de multiplicar practicadas: ").append(TextUtils.join(", ", tablesCompleted)).append("\n");
-
+        emailBody.append("Fecha: ").append(dateSelected).append("\n\n");
+        emailBody.append("Tablas de multiplicar practicadas: \n");
+        for (int i = 0; i < tablesCompleted.size(); i++){
+            emailBody.append("  - ").append(tablesCompleted.get(i)).append("\n");
+        }
+        emailBody.append("\n");
         // Formatea los errores cometidos
         for (int i = 0; i < tablesCompleted.size(); i++) {
-            emailBody.append("Errores cometidos en la tabla ").append(tablesCompleted.get(i)).append(": ").append("\n");
-            String[] mistakesCurrentTable = mistakes.get(i);
+            emailBody.append("Errores cometidos en la tabla ").append(tablesCompleted.get(i)).append(": \n\n");
+            ArrayList<String> mistakesCurrentTable = mistakes.get(i);
             // Verifica si la lista de errores no es nula y no está vacía
-            if (mistakesCurrentTable != null && mistakesCurrentTable.length > 0) {
+            if (mistakesCurrentTable != null && mistakesCurrentTable.size() > 0) {
                 for (String mistake : mistakesCurrentTable) {
                     // Verifica si el campo mistake no es nulo
                     if (mistake != null) {
-                        emailBody.append("- ").append(mistake).append("\n");
+                        emailBody.append("  - ").append(mistake).append("\n");
                     }
                 }
                 emailBody.append("\n");
             } else {
-                emailBody.append("No se registraron errores en esta tabla.\n\n");
+                emailBody.append("  - ¡FELICIDADES! No se registraron errores en esta tabla.\n\n");
             }
         }
 
         // Formatea los porcentajes de aciertos
         emailBody.append("Porcentajes de aciertos: ").append("\n");
         for (int i = 0; i < tablesCompleted.size(); i++) {
-            emailBody.append("- ").append(tablesCompleted.get(i)).append(": ").append(percentegesSuccess.get(i)).append("%\n");
+            emailBody.append("  - ").append(tablesCompleted.get(i)).append(": ").append(percentegesSuccess.get(i)).append("%\n");
         }
 
         emailBody.append("\n¡¡¡Sigue practicando para conseguir más avatares!!!");
