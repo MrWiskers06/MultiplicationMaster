@@ -143,13 +143,6 @@ public class SettingsFragment extends Fragment implements AdapterView.OnItemSele
         button.setSelected(true); // Selecciona el nuevo botón
         button.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#73C6B6"))); // Establece el nuevo color del botón
         lastSelectedButton = button; // Actualiza la referencia al último botón seleccionado
-
-        /*if (button.getText().equals("?")){
-            randomTable = (int) Math.floor(Math.random() * 11);
-            // Toast.makeText(getContext(), "Has seleccionado la tabla del " + randomTable, Toast.LENGTH_SHORT).show();
-        }else {
-            // Toast.makeText(getContext(), "Has seleccionado la tabla del " + button.getText(), Toast.LENGTH_SHORT).show();
-        }*/
     }
     public void onClickTableNumber(View view) {
         if (view instanceof Button) {
@@ -159,6 +152,7 @@ public class SettingsFragment extends Fragment implements AdapterView.OnItemSele
             selectUnselectButton(button);
 
             if(button.getText().equals("?")){
+                randomTable = (int) Math.floor(Math.random() * 11);
                 MainActivity.setTableSelected(String.valueOf(randomTable));
             }else{
                 MainActivity.setTableSelected((String) button.getText()); //Lo utilizaremos para recuperar la tabla seleccionada.

@@ -106,7 +106,7 @@ public class TrainFragment extends Fragment {
     private ArrayList<Integer> generateRandomOrder() {
         ArrayList<Integer> orderDifficultLevel = new ArrayList<>();
 
-        for (int i = 0; i <= 10; i++) {
+        for (int i = 1; i <= 10; i++) {
             orderDifficultLevel.add(i);
         }
 
